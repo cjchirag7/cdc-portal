@@ -1,0 +1,19 @@
+{
+  "name": "cdc-portal",
+  "version": "1.0.0",
+  "description": "CDC Portal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjchirag7/cdc-portal.git"
+  },
+  "author": "cjchirag7@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjchirag7/cdc-portal/issues"
+  },
+  "homepage": "https://github.com/cjchirag7/cdc-portal#readme"
+}
