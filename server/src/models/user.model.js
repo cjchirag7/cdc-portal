@@ -44,6 +44,18 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    company: {
+      type: String,
+      ref: 'Company',
+    },
+    designation: {
+      type: String,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,

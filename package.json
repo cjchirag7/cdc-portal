@@ -4,7 +4,15 @@
   "description": "CDC Portal",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "cd client && yarn install",
+    "server-install": "cd server && yarn install",
+    "install-all": "yarn install & yarn client-install & yarn server-install",
+    "client-dev": "cd client && yarn start",
+    "server-dev": "cd server && yarn run dev",
+    "client-lint": "cd client && yarn run lint:fix",
+    "server-lint": "cd server && yarn run lint:fix",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -15,5 +23,13 @@
   "bugs": {
     "url": "https://github.com/cjchirag7/cdc-portal/issues"
   },
-  "homepage": "https://github.com/cjchirag7/cdc-portal#readme"
+  "homepage": "https://github.com/cjchirag7/cdc-portal#readme",
+  "dependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.3"
+  },
+  "lint-staged": {
+    "client/src/**/*.js": "yarn run client-lint",
+    "server/**/*.js": "yarn run server-lint"
+  }  
 }

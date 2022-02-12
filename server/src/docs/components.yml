@@ -10,6 +10,12 @@ components:
           format: email
         name:
           type: string
+        designation:
+          type: string
+        phone:
+          type: string                    
+        company:
+          type: string          
         role:
           type: string
           enum: [user, admin]
@@ -17,7 +23,10 @@ components:
         id: 5ebac534954b54139806c112
         email: fake@example.com
         name: fake name
-        role: user
+        role: user        
+        designation: HR
+        phone: +91 9999999999
+        company: test-company
 
     Token:
       type: object

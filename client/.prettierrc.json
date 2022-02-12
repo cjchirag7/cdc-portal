@@ -1,3 +1,9 @@
 {
-    "singleQuote": true
+  "useTabs": false,
+  "tabWidth": 2,
+  "endOfLine": "auto",
+  "singleQuote": true,
+  "parser": "flow" ,
+  "printWidth": 120,
+  "trailingComma": "es5"
 }

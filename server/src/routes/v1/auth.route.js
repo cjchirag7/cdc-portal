@@ -52,10 +52,36 @@ module.exports = router;
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
+ *               designation:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               company:
+ *                 type: string
+ *               newCompany:
+ *                 type: object
+ *                 required:
+ *                   - name
+ *                   - website
+ *                   - category
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   website:
+ *                     type: string
+ *                     format: uri
+ *                   category:
+ *                     type: string
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
+ *               designation: HR
+ *               phone: +91 9999999999
+ *               newCompany:
+ *                 name: Test Company
+ *                 website: https://wwww.test-company.com
+ *                 category: Software / IT
  *     responses:
  *       "201":
  *         description: Created
