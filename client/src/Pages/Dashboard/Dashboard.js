@@ -27,6 +27,7 @@ import RoleBasedRoute from '../../RoleBasedRoute';
 import { ADMIN, USER } from '../../store/roles';
 import JNFList from './JNFs';
 import MyJNFs from './JNFs/MyJNFs';
+import NewJNF from './JNFs/NewJNF';
 
 const drawerWidth = 200;
 
@@ -241,6 +242,7 @@ export default function Dashboard() {
         <Switch>
           <RoleBasedRoute path="/dashboard/users" exact component={Users} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />
