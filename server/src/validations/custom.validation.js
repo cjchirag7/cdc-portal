@@ -1,3 +1,13 @@
+const { Course } = require('../models');
+
+const slugId = (value, helpers) => {
+  const course = Course.findById(value);
+  if (!course) {
+    return helpers.message('"{{#label}}" must be a valid course name');
+  }
+  return value;
+};
+
 const objectId = (value, helpers) => {
   if (!value.match(/^[0-9a-fA-F]{24}$/)) {
     return helpers.message('"{{#label}}" must be a valid mongo id');
@@ -16,6 +26,7 @@ const password = (value, helpers) => {
 };
 
 module.exports = {
+  slugId,
   objectId,
   password,
 };
