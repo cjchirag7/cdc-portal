@@ -94,8 +94,10 @@ module.exports = router;
  *                   $ref: '#/components/schemas/User'
  *                 tokens:
  *                   $ref: '#/components/schemas/AuthTokens'
- *       "400":
+ *       "400 Duplicate Email":
  *         $ref: '#/components/responses/DuplicateEmail'
+ *       "400 Duplicate Company":
+ *         $ref: '#/components/responses/DuplicateCompanyName'
  */
 
 /**
