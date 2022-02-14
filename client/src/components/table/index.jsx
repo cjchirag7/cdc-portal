@@ -12,12 +12,14 @@ import { getComparator, stableSort } from '../../utils/tableSortFunctions';
 import EnhancedTableHead from './enhancedTableHead';
 import EnhancedTableToolbar from './enhancedTableToolBar';
 import { StyledTableCell, StyledTableRow } from './styledTableCellAndRow';
+import DialogComponent from '../common/Dialog';
 
 export default function DataTable({ title, DATA, headCells, admin }) {
   const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('createdOn');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -32,6 +34,19 @@ export default function DataTable({ title, DATA, headCells, admin }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleYes = () => {
+    console.log('Form deleted');
+    handleClose();
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -71,11 +86,19 @@ export default function DataTable({ title, DATA, headCells, admin }) {
                           startIcon={<DeleteIcon />}
                           size="small"
                           sx={{ ml: '5px', mb: '5px' }}
+                          onClick={handleClickOpen}
                         >
                           {' '}
                           Delete{' '}
                         </Button>
                       </StyledTableCell>
+                      <DialogComponent
+                        open={open}
+                        handleClose={handleClose}
+                        handleYes={handleYes}
+                        label="Delete"
+                        title="Are you sure you want to delete this form ?"
+                      />
                     </StyledTableRow>
                   );
                 })}
