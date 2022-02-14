@@ -25,8 +25,12 @@ const createCompany = async (companyBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryCompanies = async (filter, options) => {
-  const companies = await Company.paginate(filter, options);
+const queryCompanies = async (category) => {
+  const query = {};
+  if (category) {
+    Object.assign(query, { category });
+  }
+  const companies = await Company.find(query);
   return companies;
 };
 
