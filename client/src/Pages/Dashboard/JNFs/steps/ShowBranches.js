@@ -15,13 +15,8 @@ const ShowBranches = ({
     <div>
       <br />
       <FormControl variant="standard">
-        <FormLabel htmlFor="course">{label}</FormLabel>
-        <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="course"
-          value={course.required}
-          onChange={handleCourse}
-        >
+        <FormLabel id="course">{label}</FormLabel>
+        <RadioGroup row aria-labelledby="course" name="course" value={course.required} onChange={handleCourse}>
           <FormControlLabel value={true} control={<Radio />} label="Yes" />
           <FormControlLabel value={false} control={<Radio />} label="No" />
         </RadioGroup>

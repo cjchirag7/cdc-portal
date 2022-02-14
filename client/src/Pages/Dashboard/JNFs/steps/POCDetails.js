@@ -25,6 +25,8 @@ const validate = (values) => {
 
   if (!values.phone) {
     errors.phone = 'Required';
+  } else if (!/^[0-9]+$/i.test(values.rounds)) {
+    errors.rounds = 'Must be a number';
   }
 
   if (!values.email) {

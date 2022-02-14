@@ -4,9 +4,18 @@ import StepContent from '@mui/material/StepContent';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { FormGroup } from '@mui/material';
+import { FormGroup, FormLabel, FormControl, Input, FormHelperText } from '@mui/material';
+import { useFormik } from 'formik';
 
 import ShowBranches from './ShowBranches';
+
+const validate = (values) => {
+  const errors = {};
+  if (!values.eligibility) {
+    errors.eligibility = 'Required';
+  }
+  return errors;
+};
 
 export default function EligibleBranches({
   pBtech,
@@ -17,12 +26,23 @@ export default function EligibleBranches({
   pMsc,
   pMba,
   pPhd,
-  pEligibilityCriteria,
+  pEligibility,
   firstStep,
   lastStep,
   handleNext,
   handleBack,
 }) {
+  const formik = useFormik({
+    initialValues: {
+      eligibility: pEligibility,
+    },
+    validate,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values));
+      handleNext();
+    },
+  });
+
   // Btech
   pBtech = {
     required: true,
@@ -124,11 +144,24 @@ export default function EligibleBranches({
               handleCourseBranch={handleDualDegreeBranch}
               handleCourseAll={handleDualDegreeAll}
             />
+            <FormControl variant="standard">
+              <FormLabel htmlFor="eligibility">Eligibility criteria, if any</FormLabel>
+              <Typography variant="caption">
+                If no eligibility criteria is applicable then please write &quot;NA&quot;
+              </Typography>
+              <Input
+                id="eligibility"
+                value={formik.values.eligibility}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.eligibility}</FormHelperText>
+            </FormControl>
           </FormGroup>
         </Typography>
         <Box sx={{ mb: 2 }}>
           <div>
-            <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
+            <Button variant="contained" onClick={formik.handleSubmit} sx={{ mt: 1, mr: 1 }}>
               {lastStep ? 'Finish' : 'Continue'}
             </Button>
             <Button disabled={firstStep} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>

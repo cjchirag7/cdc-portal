@@ -10,39 +10,23 @@ import { useFormik } from 'formik';
 const validate = (values) => {
   const errors = {};
 
-  if (!values.designation) {
-    errors.designation = 'Required';
-  } else if (values.designation.length > 30) {
-    errors.designation = 'Must be 30 characters or less';
+  if (!values.ctc) {
+    errors.ctc = 'Required';
   }
 
-  if (!values.description) {
-    errors.description = 'Required';
-  } else if (values.description.length < 30) {
-    errors.description = 'Must be 30 characters or more';
-  }
-
-  if (!values.place) {
-    errors.place = 'Required';
+  if (!values.bond) {
+    errors.bond = 'Required';
   }
 
   return errors;
 };
 
-export default function JobProfile({
-  pDesignation,
-  pDescription,
-  pPlace,
-  firstStep,
-  lastStep,
-  handleNext,
-  handleBack,
-}) {
+export default function CTCDetails({ pCtc, pBreakup, pBond, firstStep, lastStep, handleNext, handleBack }) {
   const formik = useFormik({
     initialValues: {
-      designation: pDesignation || '',
-      description: pDescription || '',
-      place: pPlace || '',
+      ctc: pCtc,
+      breakup: pBreakup,
+      bond: pBond,
     },
     validate,
     onSubmit: (values) => {
@@ -54,39 +38,34 @@ export default function JobProfile({
   return (
     <div>
       <StepLabel optional={lastStep ? <Typography variant="caption">Last step</Typography> : null}>
-        Job Profile
+        CTC Details
       </StepLabel>
       <StepContent>
         <Typography style={{ fontFamily: 'JetBrains Mono' }} variant="h5">
-          Describe the profile of the job for which you are hiring
+          Please note that the Salary Details is one of the most important criteria for the allotment of placement slot
           <FormGroup>
             <br />
             <FormControl variant="standard">
-              <InputLabel htmlFor="designation">Designation</InputLabel>
-              <Input
-                id="designation"
-                value={formik.values.designation}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <FormHelperText>{formik.errors.designation}</FormHelperText>
+              <InputLabel htmlFor="ctc">CTC (in LPA)</InputLabel>
+              <Input id="ctc" value={formik.values.ctc} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+              <FormHelperText>{formik.errors.ctc}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
-              <InputLabel htmlFor="description">Job Description</InputLabel>
+              <InputLabel htmlFor="breakup">CTC Breakup</InputLabel>
               <Input
-                id="description"
-                value={formik.values.description}
+                id="breakup"
+                value={formik.values.breakup}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.description}</FormHelperText>
+              <FormHelperText>{formik.errors.breakup}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
-              <InputLabel htmlFor="place">Place of Posting</InputLabel>
-              <Input id="place" value={formik.values.place} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-              <FormHelperText>{formik.errors.place}</FormHelperText>
+              <InputLabel htmlFor="bond">Bond Details (if any)</InputLabel>
+              <Input id="bond" value={formik.values.bond} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+              <FormHelperText>{formik.errors.bond}</FormHelperText>
             </FormControl>
           </FormGroup>
         </Typography>

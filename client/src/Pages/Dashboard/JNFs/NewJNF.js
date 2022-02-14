@@ -10,6 +10,8 @@ import POCDetails from './steps/POCDetails';
 import CompanyDetails from './steps/CompanyDetails';
 import JobProfile from './steps/JobProfile';
 import EligibleBranches from './steps/EligibleBranches';
+import SelectionProcess from './steps/SelectionProcess';
+import CTCDetails from './steps/CTCDetails';
 
 export default function NewJNF(steps = 1) {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -41,8 +43,14 @@ export default function NewJNF(steps = 1) {
         <Step key={4}>
           <EligibleBranches firstStep={false} lastStep={false} handleNext={handleNext} handleBack={handleBack} />
         </Step>
+        <Step key={5}>
+          <SelectionProcess firstStep={false} lastStep={false} handleNext={handleNext} handleBack={handleBack} />
+        </Step>
+        <Step key={6}>
+          <CTCDetails firstStep={false} lastStep={false} handleNext={handleNext} handleBack={handleBack} />
+        </Step>
       </Stepper>
-      {activeStep === 10 && (
+      {activeStep === 6 && (
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>All steps completed - you&apos;re finished</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
