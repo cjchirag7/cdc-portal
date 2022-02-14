@@ -25,6 +25,8 @@ import RoleBasedRoute from '../../RoleBasedRoute';
 import { ADMIN, USER } from '../../store/roles';
 import JNFList from './JNFs';
 import MyJNFs from './JNFs/MyJNFs';
+import INFList from './INFs';
+import MyINFs from './INFs/myINF';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -178,6 +180,8 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/users" exact component={Users} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />
         </Switch>
