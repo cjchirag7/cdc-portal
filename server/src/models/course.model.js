@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON, paginate } = require('./plugins');
+const { toJSON } = require('./plugins');
 
 const courseSchema = mongoose.Schema(
   {
@@ -29,7 +29,6 @@ const courseSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 courseSchema.plugin(toJSON);
-courseSchema.plugin(paginate);
 
 /**
  * Check if name is taken

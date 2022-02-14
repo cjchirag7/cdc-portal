@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON, paginate } = require('./plugins');
+const { toJSON } = require('./plugins');
 
 const branchSchema = mongoose.Schema(
   {
@@ -12,6 +12,7 @@ const branchSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      ref: 'Course',
     },
     courseStruct: {
       type: String,
@@ -25,7 +26,6 @@ const branchSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 branchSchema.plugin(toJSON);
-branchSchema.plugin(paginate);
 
 /**
  * Check if any data exists with same branch and course type
