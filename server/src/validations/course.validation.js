@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { slugId } = require('./custom.validation');
 
 const createCourse = {
   body: Joi.object().keys({
@@ -21,13 +20,13 @@ const getCourses = {
 
 const getCourse = {
   params: Joi.object().keys({
-    courseId: Joi.string().custom(slugId),
+    courseId: Joi.string(),
   }),
 };
 
 const updateCourse = {
   params: Joi.object().keys({
-    courseId: Joi.required().custom(slugId),
+    courseId: Joi.string().required(),
   }),
   body: Joi.object()
     .keys({
@@ -40,7 +39,7 @@ const updateCourse = {
 
 const deleteCourse = {
   params: Joi.object().keys({
-    courseId: Joi.string().custom(slugId),
+    courseId: Joi.string(),
   }),
 };
 

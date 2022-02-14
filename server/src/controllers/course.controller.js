@@ -5,8 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { courseService } = require('../services');
 
 const createCourse = catchAsync(async (req, res) => {
-  const { id } = await courseService.createCourse(req.body);
-  const course = await courseService.getCourseById(id);
+  const course = await courseService.createCourse(req.body);
   res.status(httpStatus.CREATED).send(course);
 });
 
