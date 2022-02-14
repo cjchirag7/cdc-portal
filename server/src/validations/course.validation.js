@@ -10,11 +10,7 @@ const createCourse = {
 
 const getCourses = {
   query: Joi.object().keys({
-    name: Joi.string(),
     duration: Joi.number(),
-    sortBy: Joi.string(),
-    limit: Joi.number().integer(),
-    page: Joi.number().integer(),
   }),
 };
 

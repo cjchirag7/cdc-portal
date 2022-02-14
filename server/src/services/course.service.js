@@ -18,15 +18,15 @@ const createCourse = async (courseBody) => {
 
 /**
  * Query for courses
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
+ * @param {number} duration - Course duration
  * @returns {Promise<QueryResult>}
  */
-const queryCourses = async (filter, options) => {
-  const courses = await Course.paginate(filter, options);
+const queryCourses = async (duration) => {
+  const query = {};
+  if (duration) {
+    Object.assign(query, { duration });
+  }
+  const courses = await Course.find(query);
   return courses;
 };
 

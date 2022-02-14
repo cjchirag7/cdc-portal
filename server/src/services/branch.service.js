@@ -16,15 +16,15 @@ const createBranch = async (branchBody) => {
 
 /**
  * Query for branches
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
+ * @param {string} courseType - Course type of branch
  * @returns {Promise<QueryResult>}
  */
-const queryBranches = async (filter, options) => {
-  const branches = await Branch.paginate(filter, options);
+const queryBranches = async (courseType) => {
+  const query = {};
+  if (courseType) {
+    Object.assign(query, { courseType });
+  }
+  const branches = await Branch.find(query);
   return branches;
 };
 
