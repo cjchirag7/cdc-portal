@@ -18,7 +18,7 @@ const validate = (values) => {
 
   if (!values.description) {
     errors.description = 'Required';
-  } else if (values.designation.length < 30) {
+  } else if (values.description.length < 30) {
     errors.description = 'Must be 30 characters or more';
   }
 

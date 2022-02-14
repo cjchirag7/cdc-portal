@@ -28,7 +28,7 @@ export default function CompanyDetails({ pName, pWebsite, pSector, firstStep, la
   const formik = useFormik({
     initialValues: {
       name: pName || '',
-      wesbite: pWebsite || '',
+      website: pWebsite || '',
       sector: pSector || '',
     },
     validate,

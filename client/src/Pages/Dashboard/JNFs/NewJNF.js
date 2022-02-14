@@ -9,6 +9,7 @@ import Step from '@mui/material/Step';
 import POCDetails from './steps/POCDetails';
 import CompanyDetails from './steps/CompanyDetails';
 import JobProfile from './steps/JobProfile';
+import EligibleBranches from './steps/EligibleBranches';
 
 export default function NewJNF(steps = 1) {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -36,6 +37,9 @@ export default function NewJNF(steps = 1) {
         </Step>
         <Step key={3}>
           <JobProfile firstStep={false} lastStep={false} handleNext={handleNext} handleBack={handleBack} />
+        </Step>
+        <Step key={4}>
+          <EligibleBranches firstStep={false} lastStep={false} handleNext={handleNext} handleBack={handleBack} />
         </Step>
       </Stepper>
       {activeStep === 10 && (
