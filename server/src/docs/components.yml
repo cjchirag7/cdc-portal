@@ -28,6 +28,23 @@ components:
         phone: +91 9999999999
         company: test-company
 
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        website:
+          type: string
+          format: uri          
+        category:
+          type: string
+      example:
+        id: test-company
+        name: Test Company
+        website: https://www.test-company.com
+
     Token:
       type: object
       properties:
@@ -66,6 +83,15 @@ components:
           example:
             code: 400
             message: Email already taken
+    DuplicateCompanyName:
+      description: Company name already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: A company with this name already exists.
     Unauthorized:
       description: Unauthorized
       content:

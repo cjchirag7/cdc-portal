@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Redirect, Switch, useHistory } from 'react-router-dom';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
+import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import ToggleButton from '@mui/material/ToggleButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import ListItemText from '@mui/material/ListItemText';
-import { Avatar, ListItemAvatar, Menu, MenuItem, Tooltip } from '@mui/material';
+import Button from '@mui/material/Button';
+import { Avatar, ListItemAvatar, Menu, MenuItem } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import PeopleIcon from '@mui/icons-material/People';
 import Users from './Users';
 import { signOut } from '../../store/actions/AuthAction';
 import getInitialsFromName from '../../utils/getInitialsFromName';
@@ -28,29 +26,8 @@ import { ADMIN, USER } from '../../store/roles';
 import JNFList from './JNFs';
 import MyJNFs from './JNFs/MyJNFs';
 import NewJNF from './JNFs/NewJNF';
-
-const drawerWidth = 200;
-
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
-});
+import INFList from './INFs';
+import MyINFs from './INFs/myINF';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -61,38 +38,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
   }),
 }));
 
@@ -100,10 +50,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { authData } = useSelector((state) => state.auth);
-  const theme = useTheme();
-  const authRole = authData?.user?.role;
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
 
   const handleMenu = (event) => {
@@ -118,34 +65,60 @@ export default function Dashboard() {
     dispatch(signOut(authData));
   };
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const toggleResponsiveHeader = () => {
+    setOpen(!open);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const pages = ['DATA1', 'DATA2', 'DATA3'];
+  const list = () => (
+    <Box
+      sx={{ width: '250', mt: '55px', pl: '70px', backgroundColor: 'primary.main', color: 'white' }}
+      role="presentation"
+      onClose={toggleResponsiveHeader}
+    >
+      <List>
+        {pages.map((text) => (
+          <ListItem button key={text}>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+    </Box>
+  );
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <React.Fragment key="left">
+            <ToggleButton
+              value="check"
+              sx={{ color: 'white', display: { xs: 'flex', md: 'none' }, mr: '25px' }}
+              onClick={toggleResponsiveHeader}
+            >
+              <MenuIcon />
+            </ToggleButton>
+            <Drawer
+              anchor="top"
+              open={open}
+              onClose={toggleResponsiveHeader}
+              sx={{ display: { xs: 'flex', md: 'none' } }}
+            >
+              {list()}
+            </Drawer>
+          </React.Fragment>
           <Typography variant="h6" noWrap component="div">
             CDC IIT(ISM)
           </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button key={page} sx={{ my: 2, color: 'white', display: 'block', ml: '25px' }}>
+                {page}
+              </Button>
+            ))}
+          </Box>
           <IconButton
             size="large"
             aria-label={authData?.user?.email}
@@ -202,41 +175,6 @@ export default function Dashboard() {
           </Menu>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        open={open}
-        PaperProps={{
-          sx: { backgroundColor: 'primary.main', color: 'white' },
-        }}
-      >
-        <DrawerHeader>
-          <Typography variant="h6" noWrap component="div">
-            Company Portal
-          </Typography>
-          <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {authRole === ADMIN && (
-            <Tooltip title="Users" disableInteractive>
-              <ListItem
-                button
-                key={'Users'}
-                onClick={() => {
-                  history.push('/dashboard/users');
-                }}
-              >
-                <ListItemIcon sx={{ color: 'white' }}>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Users'} />
-              </ListItem>
-            </Tooltip>
-          )}
-        </List>
-      </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Switch>
@@ -244,6 +182,8 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />
         </Switch>

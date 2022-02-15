@@ -35,6 +35,6 @@ const headCells = [
   },
 ];
 
-export default function MyJNFs() {
-  return <DataTable title="MY JNFs" DATA={JNF_DATA} headCells={headCells} />;
+export default function MyINFs() {
+  return <DataTable title="MY INFs" DATA={JNF_DATA} headCells={headCells} />;
 }
