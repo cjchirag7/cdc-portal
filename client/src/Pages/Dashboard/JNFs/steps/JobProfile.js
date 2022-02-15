@@ -76,6 +76,8 @@ export default function JobProfile({
               <InputLabel htmlFor="description">Job Description</InputLabel>
               <Input
                 id="description"
+                multiline={true}
+                minRows={3}
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

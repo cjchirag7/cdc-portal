@@ -55,6 +55,8 @@ export default function CTCDetails({ pCtc, pBreakup, pBond, firstStep, lastStep,
               <InputLabel htmlFor="breakup">CTC Breakup</InputLabel>
               <Input
                 id="breakup"
+                multiline={true}
+                minRows={3}
                 value={formik.values.breakup}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
