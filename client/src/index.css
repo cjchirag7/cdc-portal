@@ -44,3 +44,22 @@ body {
   background: #fafafa;
   border: none;
 }
+
+.MuiPaper-root{
+  scroll-margin-top: 70px;
+}
+
+.MuiTimelineItem-root::before{
+  display: none;
+}
+
+.MuiTimelineConnector-root{
+  height: 50px;
+}
+
+.MuiTimelineContent-root a{
+  text-decoration: none;
+  color: rgb(56, 56, 56);
+  font-weight: 500;
+}
+
