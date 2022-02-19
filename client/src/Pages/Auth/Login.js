@@ -36,6 +36,10 @@ export default function Login() {
     history.push('/auth/forgot-password');
   };
 
+  const handleRegister = () => {
+    history.push('/auth/register');
+  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -208,6 +212,9 @@ export default function Login() {
                     disabled={isLoading}
                   >
                     Sign In
+                  </Button>
+                  <Button style={{ fontSize: '14px' }} onClick={handleRegister}>
+                    New user? Register here
                   </Button>
                   <Button style={{ fontSize: '14px' }} onClick={handleForgetPass}>
                     Forgot Password?
