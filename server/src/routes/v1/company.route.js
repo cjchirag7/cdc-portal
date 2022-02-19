@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('createOrDeleteCompanies'), validate(companyValidation.createCompany), companyController.createCompany)
-  .get(auth('getOrEditCompanies'), validate(companyValidation.getCompanies), companyController.getCompanies);
+  .get(validate(companyValidation.getCompanies), companyController.getCompanies);
 
 router
   .route('/:companyId')
@@ -75,8 +75,6 @@ module.exports = router;
  *     summary: Get all companies
  *     description: Any registered user can get all companies.
  *     tags: [Companies]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: category

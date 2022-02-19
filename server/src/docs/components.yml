@@ -44,6 +44,7 @@ components:
         id: test-company
         name: Test Company
         website: https://www.test-company.com
+        category: Software / IT
 
     Token:
       type: object
