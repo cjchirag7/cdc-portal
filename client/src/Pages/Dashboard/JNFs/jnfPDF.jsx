@@ -1,8 +1,16 @@
 import React from 'react';
-import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import ViewJNF from './viewJNF';
 
-const styles = StyleSheet.create({});
+// Create Document Component
+const MyDocument = () => <ViewJNF />;
 
-const JNF_PDF = () => <div>HELLO</div>;
+const JNF_PDF = () => {
+  return (
+    <PDFViewer>
+      <MyDocument />
+    </PDFViewer>
+  );
+};
 
 export default JNF_PDF;

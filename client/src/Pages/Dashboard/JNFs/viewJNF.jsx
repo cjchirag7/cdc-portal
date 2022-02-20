@@ -20,7 +20,6 @@ import {
   typeOfTest,
   otherQualificationRounds,
 } from '../JNFs/data';
-import JNF_PDF from './jnfPDF';
 
 const ViewJNF = () => {
   return (
@@ -177,7 +176,6 @@ const ViewJNF = () => {
             body={JNF_FORM_DATA['selection-procedure']['eligibility-criteria']}
           />
         </Paper>
-        <JNF_PDF />
       </Box>
     </Container>
   );
