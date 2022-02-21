@@ -29,7 +29,7 @@ import NewJNF from './JNFs/NewJNF';
 import INFList from './INFs';
 import MyINFs from './INFs/myINF';
 import ViewJNF from './JNFs/viewJNF';
-import JNF_PDF from './JNFs/jnfPDF';
+import JNF_PDF from './JNFs/jnf-pdf/jnfPDF';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
