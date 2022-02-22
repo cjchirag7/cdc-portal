@@ -42,6 +42,40 @@ export const signIn = (formData, setIsLoading) => async (dispatch) => {
   }
 };
 
+export const register = (formData, setIsLoading) => async (dispatch) => {
+  try {
+    setIsLoading(true);
+
+    const { data } = await toast.promise(
+      api.register(formData),
+      {
+        pending: 'Creating account',
+        success: {
+          render() {
+            return 'Welcome to CDC IIT(ISM) Registration Portal';
+          },
+        },
+        error: {
+          render(e) {
+            return e?.data?.response?.data?.message || e?.data?.message;
+          },
+        },
+      },
+      { position: 'top-center' }
+    );
+
+    delete data.tokens.refresh;
+
+    dispatch({ type: AUTH, data });
+  } catch (e) {
+    if (!e?.response?.data?.message) {
+      showToast(ERROR, 'Error in creating an account!');
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 export const signOut = (authData) => async (dispatch) => {
   try {
     const refreshToken = authData?.tokens?.refresh?.token;

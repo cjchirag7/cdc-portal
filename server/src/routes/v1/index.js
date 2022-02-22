@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const courseRoute = require('./course.route');
 const branchRoute = require('./branch.route');
 const companyRoute = require('./company.route');
+const jnfRoute = require('./jnf.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: '/companies',
     route: companyRoute,
+  },
+  {
+    path: '/jnfs',
+    route: jnfRoute,
   },
 ];
 

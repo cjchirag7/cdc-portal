@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Login from './Pages/Auth/Login';
+import Register from './Pages/Auth/Register';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
 import ResetPassword from './Pages/Auth/ResetPassword';
@@ -49,6 +50,7 @@ function App() {
           <Switch>
             <Route path={'/'} exact component={() => <Redirect to={'/dashboard'} />} />
             <PrivateRoute path={'/auth/login'} exact component={() => <Login />} userState={UNAUTHENTICATED} />
+            <PrivateRoute path={'/auth/register'} exact component={() => <Register />} userState={UNAUTHENTICATED} />
             <PrivateRoute
               path={'/auth/send-verification-mail'}
               exact

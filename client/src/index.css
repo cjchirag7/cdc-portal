@@ -14,7 +14,7 @@ body {
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: #062b5b #e0e0e0;
+  scrollbar-color: #000000 #e0e0e0;
 }
 
 /* Chrome, Edge, and Safari */
@@ -27,7 +27,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #062b5b;
+  background-color: #000000;
   border-radius: 11px;
   border: 0px solid #ffffff;
 }
@@ -36,7 +36,7 @@ body {
 .TextEditor{
   background: #fff;
   min-height: 200px;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #000000;
   padding: 0 10px;
 }
 

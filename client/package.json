@@ -21,6 +21,7 @@
     "buffer": "^6.0.3",
     "draftjs-to-html": "^0.9.1",
     "formik": "^2.2.9",
+    "material-ui-phone-number": "^3.0.0",
     "moment": "^2.29.1",
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
