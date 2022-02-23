@@ -17,23 +17,32 @@ const validate = (values) => {
     errors.website = 'Required';
   }
 
-  if (!values.sector) {
-    errors.sector = 'Required';
+  if (!values.category) {
+    errors.category = 'Required';
   }
 
   return errors;
 };
 
-export default function CompanyDetails({ pName, pWebsite, pSector, firstStep, lastStep, handleNext, handleBack }) {
+export default function CompanyDetails({
+  name,
+  website,
+  category,
+  firstStep,
+  lastStep,
+  handleNext,
+  handleBack,
+  setCompanyDetail,
+}) {
   const formik = useFormik({
     initialValues: {
-      name: pName || '',
-      website: pWebsite || '',
-      sector: pSector || '',
+      name: name || '',
+      website: website || '',
+      category: category || '',
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setCompanyDetail(values);
       handleNext();
     },
   });
@@ -69,11 +78,11 @@ export default function CompanyDetails({ pName, pWebsite, pSector, firstStep, la
               <InputLabel htmlFor="sector">Industry Sector</InputLabel>
               <Input
                 id="sector"
-                value={formik.values.sector}
+                value={formik.values.category}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.sector}</FormHelperText>
+              <FormHelperText>{formik.errors.category}</FormHelperText>
             </FormControl>
           </FormGroup>
         </Typography>

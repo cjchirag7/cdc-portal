@@ -14,23 +14,33 @@ const validate = (values) => {
     errors.ctc = 'Required';
   }
 
-  if (!values.bond) {
-    errors.bond = 'Required';
+  if (!values.bondDetail) {
+    errors.bondDetail = 'Required';
   }
 
   return errors;
 };
 
-export default function CTCDetails({ pCtc, pBreakup, pBond, firstStep, lastStep, handleNext, handleBack }) {
+export default function CTCDetails({
+  ctc,
+  ctcBreakup,
+  bondDetail,
+  firstStep,
+  lastStep,
+  handleNext,
+  handleBack,
+  setCTCDetail,
+}) {
   const formik = useFormik({
     initialValues: {
-      ctc: pCtc,
-      breakup: pBreakup,
-      bond: pBond,
+      ctc,
+      ctcBreakup,
+      bondDetail,
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setCTCDetail(values);
+      console.log(values);
       handleNext();
     },
   });
@@ -52,22 +62,27 @@ export default function CTCDetails({ pCtc, pBreakup, pBond, firstStep, lastStep,
             </FormControl>
             <br />
             <FormControl variant="standard">
-              <InputLabel htmlFor="breakup">CTC Breakup</InputLabel>
+              <InputLabel htmlFor="ctcBreakup">CTC Breakup</InputLabel>
               <Input
-                id="breakup"
+                id="ctcBreakup"
                 multiline={true}
                 minRows={3}
-                value={formik.values.breakup}
+                value={formik.values.ctcBreakup}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.breakup}</FormHelperText>
+              <FormHelperText>{formik.errors.ctcBreakup}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
-              <InputLabel htmlFor="bond">Bond Details (if any)</InputLabel>
-              <Input id="bond" value={formik.values.bond} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-              <FormHelperText>{formik.errors.bond}</FormHelperText>
+              <InputLabel htmlFor="bondDetail">Bond Details (if any)</InputLabel>
+              <Input
+                id="bondDetail"
+                value={formik.values.bondDetail}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.bondDetail}</FormHelperText>
             </FormControl>
           </FormGroup>
         </Typography>

@@ -9,30 +9,56 @@ import { useFormik } from 'formik';
 
 const validate = (values) => {
   const errors = {};
-  if (!values.name) {
-    errors.name = 'Required';
-  } else if (values.name.length > 30) {
-    errors.name = 'Must be 30 characters or less';
-  } else if (values.name.length < 6) {
-    errors.name = 'Must be 6 or more characters';
+  if (!values.pName) {
+    errors.pName = 'Required';
+  } else if (values.pName.length > 30) {
+    errors.pName = 'Must be 30 characters or less';
+  } else if (values.pName.length < 6) {
+    errors.pName = 'Must be 6 or more characters';
   }
 
-  if (!values.designation) {
-    errors.designation = 'Required';
-  } else if (values.designation.length > 30) {
-    errors.designation = 'Must be 30 characters or less';
+  if (values.sName) {
+    if (values.sName.length > 30) {
+      errors.sName = 'Must be 30 characters or less';
+    } else if (values.sName.length < 6) {
+      errors.sName = 'Must be 6 or more characters';
+    }
   }
 
-  if (!values.phone) {
-    errors.phone = 'Required';
-  } else if (!/^[0-9]+$/i.test(values.phone)) {
-    errors.phone = 'Must be a number';
+  if (!values.pDesignation) {
+    errors.pDesignation = 'Required';
+  } else if (values.pDesignation.length > 30) {
+    errors.pDesignation = 'Must be 30 characters or less';
   }
 
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
+  if (values.sDesignation) {
+    if (values.sDesignation.length > 30) {
+      errors.sDesignation = 'Must be 30 characters or less';
+    }
+  }
+
+  if (values.pPhone) {
+    if (!/^[0-9]+$/i.test(values.pPhone)) {
+      errors.pPhone = 'Must be a number';
+    }
+  }
+
+  if (values.sPhone) {
+    if (!/^[0-9]+$/i.test(values.sPhone)) {
+      errors.sPhone = 'Must be a number';
+    }
+  }
+
+  if (!values.pEmail) {
+    errors.pEmail = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.pEmail)) {
+    errors.pEmail = 'Invalid email address';
+  }
+
+  if (values.sEmail) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.sEmail)) {
+      errors.sEmail = 'Invalid email address';
+    }
   }
 
   return errors;
@@ -43,21 +69,30 @@ export default function POCDetails({
   pDesignation,
   pPhone,
   pEmail,
+  sName,
+  sDesignation,
+  sPhone,
+  sEmail,
   firstStep,
   lastStep,
   handleNext,
   handleBack,
+  setPocDetail,
 }) {
   const formik = useFormik({
     initialValues: {
-      name: pName || '',
-      designation: pDesignation || '',
-      phone: pPhone || '',
-      email: pEmail || '',
+      pName: pName || '',
+      pDesignation: pDesignation || '',
+      pPhone: pPhone || '',
+      pEmail: pEmail || '',
+      sName: sName || '',
+      sDesignation: sDesignation || '',
+      sPhone: sPhone || '',
+      sEmail: sEmail || '',
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setPocDetail(values);
       handleNext();
     },
   });
@@ -69,36 +104,90 @@ export default function POCDetails({
       </StepLabel>
       <StepContent>
         <Typography style={{ fontFamily: 'JetBrains Mono' }} variant="h5">
-          Enter the details of the Person of Contact
+          Enter the details of the Person of Contact (primary)
           <FormGroup>
             <br />
             <FormControl variant="standard">
               <InputLabel htmlFor="name">Name of POC</InputLabel>
-              <Input id="name" value={formik.values.name} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-              <FormHelperText>{formik.errors.name}</FormHelperText>
+              <Input id="pName" value={formik.values.pName} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+              <FormHelperText>{formik.errors.pName}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
               <InputLabel htmlFor="designation">Designation</InputLabel>
               <Input
-                id="designation"
-                value={formik.values.designation}
+                id="pDesignation"
+                value={formik.values.pDesignation}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.designation}</FormHelperText>
+              <FormHelperText>{formik.errors.pDesignation}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
               <InputLabel htmlFor="phone">Mobile Number</InputLabel>
-              <Input id="phone" value={formik.values.phone} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-              <FormHelperText>{formik.errors.phone}</FormHelperText>
+              <Input
+                id="pPhone"
+                value={formik.values.pPhone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.pPhone}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
               <InputLabel htmlFor="email">Email</InputLabel>
-              <Input id="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-              <FormHelperText>{formik.errors.email}</FormHelperText>
+              <Input
+                id="pEmail"
+                value={formik.values.pEmail}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.pEmail}</FormHelperText>
+            </FormControl>
+          </FormGroup>
+        </Typography>
+        <Typography style={{ fontFamily: 'JetBrains Mono' }} variant="h5">
+          Secondary Contact (if any)
+          <FormGroup>
+            <br />
+            <FormControl variant="standard">
+              <InputLabel htmlFor="name">Name of POC</InputLabel>
+              <Input id="sName" value={formik.values.sName} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+              <FormHelperText>{formik.errors.sName}</FormHelperText>
+            </FormControl>
+            <br />
+            <FormControl variant="standard">
+              <InputLabel htmlFor="designation">Designation</InputLabel>
+              <Input
+                id="sDesignation"
+                value={formik.values.sDesignation}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.sDesignation}</FormHelperText>
+            </FormControl>
+            <br />
+            <FormControl variant="standard">
+              <InputLabel htmlFor="sPhone">Mobile Number</InputLabel>
+              <Input
+                id="sPhone"
+                value={formik.values.sPhone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.sPhone}</FormHelperText>
+            </FormControl>
+            <br />
+            <FormControl variant="standard">
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <Input
+                id="sEmail"
+                value={formik.values.sEmail}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              <FormHelperText>{formik.errors.sEmail}</FormHelperText>
             </FormControl>
           </FormGroup>
         </Typography>
