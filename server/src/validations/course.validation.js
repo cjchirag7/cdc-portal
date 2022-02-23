@@ -26,8 +26,8 @@ const updateCourse = {
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string().required(),
-      duration: Joi.number().integer().required(),
+      name: Joi.string(),
+      duration: Joi.number().integer(),
       adm_mode: Joi.string(),
     })
     .min(1),

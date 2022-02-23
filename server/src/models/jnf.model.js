@@ -32,10 +32,12 @@ const jnfSchema = mongoose.Schema(
         },
       },
     ],
-    skillsRequired: {
-      type: String,
-      trim: true,
-    },
+    skillsRequired: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     eligCriteria: {
       type: String,
       required: true,
@@ -50,11 +52,13 @@ const jnfSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    otherRound: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    otherRound: [
+      {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    ],
     totalRounds: {
       type: Number,
     },
@@ -81,6 +85,7 @@ const jnfSchema = mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'User',
     },
     gradYear: {
       type: Number,

@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { jnfService } = require('../services');
 
 const createJnf = catchAsync(async (req, res) => {
-  const jnf = await jnfService.createJnf(req.body, req.user._id);
+  const jnf = await jnfService.createJnf(req.body, req.user.id);
   res.status(httpStatus.CREATED).send(jnf);
   // TODO: send email stating jnf created
 });
@@ -13,7 +13,7 @@ const createJnf = catchAsync(async (req, res) => {
 const getJnfs = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['createdBy']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await jnfService.queryJnfs(filter, options, req.user.role, req.user._id);
+  const result = await jnfService.queryJnfs(filter, options, req.user.role, req.user.id);
   res.send(result);
 });
 
