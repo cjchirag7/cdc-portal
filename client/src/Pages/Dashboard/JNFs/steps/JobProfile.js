@@ -30,23 +30,24 @@ const validate = (values) => {
 };
 
 export default function JobProfile({
-  pDesignation,
-  pDescription,
-  pPlace,
+  designation,
+  description,
+  place,
   firstStep,
   lastStep,
   handleNext,
   handleBack,
+  setJobProfile,
 }) {
   const formik = useFormik({
     initialValues: {
-      designation: pDesignation || '',
-      description: pDescription || '',
-      place: pPlace || '',
+      designation: designation || '',
+      description: description || '',
+      place: place || '',
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setJobProfile(values);
       handleNext();
     },
   });

@@ -5,9 +5,11 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { getComparator, stableSort } from '../../utils/tableSortFunctions';
 import EnhancedTableHead from './enhancedTableHead';
 import EnhancedTableToolbar from './enhancedTableToolBar';
@@ -75,22 +77,24 @@ export default function DataTable({ title, DATA, headCells, admin }) {
                       <StyledTableCell align="center">{row.company}</StyledTableCell>
                       <StyledTableCell align="center">{row.createdOn}</StyledTableCell>
                       <StyledTableCell align="center">{row.lastEditedOn}</StyledTableCell>
-                      <StyledTableCell align="right" sx={{ width: '15%' }}>
+                      <StyledTableCell align="center" sx={{ width: '10%' }}>
+                        <Tooltip title="View">
+                          <IconButton size="small" sx={{ mb: '5px' }} onClick={handleClickOpen}>
+                            <VisibilityIcon />
+                          </IconButton>
+                        </Tooltip>
                         {!admin && (
-                          <Button variant="outlined" startIcon={<EditIcon />} size="small" sx={{ mb: '5px' }}>
-                            Edit
-                          </Button>
+                          <Tooltip title="Edit">
+                            <IconButton size="small" sx={{ ml: '5px', mb: '5px' }}>
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
                         )}
-                        <Button
-                          variant="outlined"
-                          startIcon={<DeleteIcon />}
-                          size="small"
-                          sx={{ ml: '5px', mb: '5px' }}
-                          onClick={handleClickOpen}
-                        >
-                          {' '}
-                          Delete{' '}
-                        </Button>
+                        <Tooltip title="Delete">
+                          <IconButton size="small" sx={{ ml: '5px', mb: '5px' }} onClick={handleClickOpen}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
                       </StyledTableCell>
                       <DialogComponent
                         open={open}
