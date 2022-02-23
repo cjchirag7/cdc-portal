@@ -106,7 +106,7 @@ module.exports = router;
  *                 - branch:
  *                     type: string
  *               skillsRequired:
- *                 type: string
+ *                 - type: string
  *               eligCriteria:
  *                 type: string
  *               resume:
@@ -149,7 +149,8 @@ module.exports = router;
  *              branches:
  *              - branch: 621455620b0f1e2418e49c2e
  *              - branch: 62146dcf767f815e9484ac26
- *              skillsRequired: C,C++
+ *              skillsRequired:
+ *              - C,C++
  *              eligCriteria: Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequatur, possimus.
  *              resume: 'true'
  *              testType: Technical

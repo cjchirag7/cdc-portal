@@ -32,10 +32,12 @@ const jnfSchema = mongoose.Schema(
         },
       },
     ],
-    skillsRequired: {
-      type: String,
-      trim: true,
-    },
+    skillsRequired: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     eligCriteria: {
       type: String,
       required: true,

@@ -30,7 +30,7 @@ const createJnf = {
         branch: Joi.string().required().custom(objectId),
       })
     ),
-    skillsRequired: Joi.string(),
+    skillsRequired: Joi.array().items(Joi.string()),
     eligCriteria: Joi.string().required(),
     resume: Joi.boolean().required(),
     testType: Joi.string().required(),
@@ -94,7 +94,7 @@ const updateJnf = {
           branch: Joi.string().required().custom(objectId),
         })
       ),
-      skillsRequired: Joi.string(),
+      skillsRequired: Joi.array().items(Joi.string()),
       eligCriteria: Joi.string(),
       resume: Joi.boolean(),
       testType: Joi.string(),
