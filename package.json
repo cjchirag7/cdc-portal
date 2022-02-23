@@ -12,7 +12,10 @@
     "server-dev": "cd server && yarn run dev",
     "client-lint": "cd client && yarn run lint:fix",
     "server-lint": "cd server && yarn run lint:fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "server": "cd server && yarn start",
+    "start": "yarn run install-all && yarn run server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd client && yarn --cwd client run build"
   },
   "repository": {
     "type": "git",
@@ -31,5 +34,9 @@
   "lint-staged": {
     "client/src/**/*.js": "yarn run client-lint",
     "server/**/*.js": "yarn run server-lint"
-  }  
+  },
+  "engines": {
+    "node": "16.13.2",
+    "npm": "8.3.2"
+  }
 }

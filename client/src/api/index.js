@@ -2,8 +2,9 @@ import axios from 'axios';
 import { PROFILE_KEY } from '../store/constants';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/v1/',
+  baseURL: 'https://cdc-portal-believers.herokuapp.com/v1/',
   // Use http://localhost:5000/v1/ in development
+  // Use https://cdc-portal-believers.herokuapp.com/ in production
 });
 
 API.interceptors.request.use((req) => {
@@ -28,3 +29,13 @@ export const deleteUser = (id) => API.delete(`/users/${id}`);
 export const editUser = (formData, id) => API.patch(`/users/${id}`, formData);
 
 export const getAllCompanies = () => API.get('/companies');
+
+export const getCourses = () => API.get('/courses');
+export const createCourse = (course) => API.post('/courses', course);
+export const editCourse = (id, course) => API.patch(`/courses/${id}`, course);
+export const deleteCourse = (id) => API.delete(`/course/${id}`);
+
+export const getBranches = () => API.get('/branches');
+export const createBranch = (branch) => API.post('/branches', branch);
+export const editBranch = (id, branch) => API.post(`/branches/${id}`, branch);
+export const deleteBranch = (id) => API.delete(`/branches/${id}`);

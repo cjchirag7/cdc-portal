@@ -88,3 +88,77 @@ export const JNF_DATA = [
     lastEditedOn: 'Date5',
   },
 ];
+
+export const JNF_FORM_DATA = {
+  'company-overview': {
+    name: 'Google',
+    website: 'https://www.google.com',
+    category: 'IT',
+  },
+  'job-details': {
+    designation: 'SDE',
+    place: 'Delhi',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, consequuntur.',
+  },
+  'salary-details': {
+    ctc: 25,
+    'ctc-breakup': 'Lorem ipsum dolor sit amet.',
+    'bond-details': 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+  },
+  'contact-details': {
+    primary: {
+      name: 'Lorem, ipsum dolor.',
+      designation: 'HR',
+      email: 'example@gmail.com',
+      mobile: 8575456321,
+      name: 'Lorem, ipsum dolor.',
+      designation: 'HR',
+      email: 'example@gmail.com',
+      mobile: 8575456321,
+    },
+    secondary: {
+      name: 'Lorem, ipsum dolor.',
+      designation: 'HR',
+      email: 'example@gmail.com',
+      mobile: 8575456321,
+    },
+  },
+  'eligible-courses': {
+    '4year': [
+      'Chemical Engineering',
+      'Civil Engineering',
+      'Computer Science and Engineering',
+      'Electrical Engineering',
+      'Engineering Physics',
+    ],
+    '5year': ['Computer Science & Engineering', 'Applied Geology'],
+    'skill-based': ['C, C++, Java, Python, etc.', 'AI/ ML/DL, Data Science'],
+    jam: ['Applied Geology'],
+    '2-year-mtech': [
+      'Geo Exploration',
+      'Engineering Geology',
+      'Communication & Signal Processing',
+      'Optoelectronics & Optical Communication Engineering',
+      'RF and Microwave Engineering',
+    ],
+    '2-year-mba': ['Business Analytics', 'Finance', 'Marketing'],
+    '2-year msc': ['Chemistry', 'Mathematics & Computing'],
+    phd: [
+      'Chemistry',
+      'Applied Geology',
+      'Physics',
+      'Electrical Engineering',
+      'Mechanical Engineering',
+      'Mining Engineering',
+      'Petroleum Engineering',
+    ],
+  },
+  'selection-procedure': {
+    'Resume Shortlisting': true,
+    'Type of Test': 'Technical',
+    'other-qualification-rounds': ['GD', 'Interview'],
+    totalRound: 3,
+    'number-of-offers': '20-25',
+    'eligibility-criteria': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, possimus.',
+  },
+};

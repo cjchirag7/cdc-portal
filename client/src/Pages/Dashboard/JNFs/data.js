@@ -87,3 +87,7 @@ export const phdBranches = [
   'Mining Engineering',
   'Petroleum Engineering',
 ];
+
+export const typeOfTest = ['Technical', 'Aptitude', 'Both', 'None'];
+
+export const otherQualificationRounds = ['GD', 'Case Study', 'Interview'];

@@ -28,6 +28,9 @@ import MyJNFs from './JNFs/MyJNFs';
 import NewJNF from './JNFs/NewJNF';
 import INFList from './INFs';
 import MyINFs from './INFs/myINF';
+import ViewJNF from './JNFs/viewJNF';
+import JNF_PDF from './JNFs/jnf-pdf/jnfPDF';
+import Settings from './Settings';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -118,6 +121,14 @@ export default function Dashboard() {
                 {page}
               </Button>
             ))}
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block', ml: '25px' }}
+              onClick={() => {
+                history.push('/dashboard/settings');
+              }}
+            >
+              Settings
+            </Button>
           </Box>
           <IconButton
             size="large"
@@ -184,6 +195,9 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/viewjnf" exact component={ViewJNF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/jnfpdf" exact component={JNF_PDF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />
         </Switch>
