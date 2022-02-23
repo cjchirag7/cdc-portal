@@ -25,46 +25,47 @@ const validate = (values) => {
   //     errors.type = 'Required';
   //   }
 
-  if (!values.rounds) {
+  if (!values.totalRounds) {
     errors.rounds = 'Required';
-  } else if (!/^[0-9]+$/i.test(values.rounds)) {
-    errors.rounds = 'Must be a number';
+  } else if (!/^[0-9]+$/i.test(values.totalRounds)) {
+    errors.totalRounds = 'Must be a number';
   }
-  if (!values.offers) {
+  if (!values.offerRange) {
     errors.offers = 'Required';
-  } else if (!/^[0-9]+[ ]?-?[ ]?[0-9]*$/i.test(values.offers)) {
-    errors.offers = 'Must be a number';
+  } else if (!/^[0-9]+[ ]?-?[ ]?[0-9]*$/i.test(values.offerRange)) {
+    errors.offerRange = 'Must be a range';
   }
 
   return errors;
 };
 
 export default function SelectionProcess({
-  pResume,
-  pType,
-  pGD,
-  pCaseStudy,
-  pInterview,
-  pRounds,
-  pOffers,
+  resume,
+  testType,
+  GD,
+  caseStudy,
+  interview,
+  totalRounds,
+  offerRange,
   firstStep,
   lastStep,
   handleNext,
   handleBack,
+  setSelectionProcess,
 }) {
   const formik = useFormik({
     initialValues: {
-      resume: pResume,
-      type: pType,
-      GD: pGD,
-      caseStudy: pCaseStudy,
-      interview: pInterview,
-      rounds: pRounds,
-      offers: pOffers,
+      resume: null,
+      testType,
+      GD,
+      caseStudy,
+      interview,
+      totalRounds,
+      offerRange,
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      setSelectionProcess(values);
       handleNext();
     },
   });
@@ -94,8 +95,13 @@ export default function SelectionProcess({
             </FormControl>
             <br />
             <FormControl variant="standard">
-              <FormLabel id="type">Type of Test</FormLabel>
-              <RadioGroup aria-labelledby="type" name="type" value={formik.values.type} onChange={formik.handleChange}>
+              <FormLabel id="testType">Type of Test</FormLabel>
+              <RadioGroup
+                aria-labelledby="test Type"
+                name="testType"
+                value={formik.values.testType}
+                onChange={formik.handleChange}
+              >
                 <FormControlLabel value={'Technical'} control={<Radio />} label="Technical" />
                 <FormControlLabel value={'Aptitude'} control={<Radio />} label="Aptitude" />
                 <FormControlLabel value={'Both'} control={<Radio />} label="Both" />
@@ -112,13 +118,13 @@ export default function SelectionProcess({
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox checked={formik.values.caseStudy} onChange={formik.handleChange} name="Case Study" />
+                    <Checkbox checked={formik.values.caseStudy} onChange={formik.handleChange} name="caseStudy" />
                   }
                   label="Case Study"
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox checked={formik.values.interview} onChange={formik.handleChange} name="Interview" />
+                    <Checkbox checked={formik.values.interview} onChange={formik.handleChange} name="interview" />
                   }
                   label="Interview"
                 />
@@ -128,12 +134,12 @@ export default function SelectionProcess({
             <FormControl variant="standard">
               <InputLabel htmlFor="rounds">Total Number of Rounds</InputLabel>
               <Input
-                id="rounds"
-                value={formik.values.rounds}
+                id="totalRounds"
+                value={formik.values.totalRounds}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.rounds}</FormHelperText>
+              <FormHelperText>{formik.errors.totalRounds}</FormHelperText>
             </FormControl>
             <br />
             <FormControl variant="standard">
@@ -141,12 +147,12 @@ export default function SelectionProcess({
                 Number of offers available for IIT(ISM) students (Range would be sufficient)
               </InputLabel>
               <Input
-                id="offers"
-                value={formik.values.offers}
+                id="offerRange"
+                value={formik.values.offerRange}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              <FormHelperText>{formik.errors.offers}</FormHelperText>
+              <FormHelperText>{formik.errors.offerRange}</FormHelperText>
             </FormControl>
           </FormGroup>
         </Typography>

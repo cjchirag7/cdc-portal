@@ -31,10 +31,12 @@ export default function EligibleBranches({
   lastStep,
   handleNext,
   handleBack,
+  eligibleBranches,
+  setElibigleBranches,
 }) {
   const formik = useFormik({
     initialValues: {
-      eligibility: pEligibility,
+      eligibility: pEligibility || '',
     },
     validate,
     onSubmit: (values) => {

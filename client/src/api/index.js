@@ -24,6 +24,7 @@ export const signOut = (formData) => API.post('/auth/logout', formData);
 export const refreshTokens = (formData) => API.post('/auth/refresh-tokens', formData);
 
 export const getAllUsers = (paginationOptions) => API.get(`/users`, { params: paginationOptions });
+export const getUser = (id) => API.get(`/users/${id}`);
 export const createUser = (formData) => API.post('/users', formData);
 export const deleteUser = (id) => API.delete(`/users/${id}`);
 export const editUser = (formData, id) => API.patch(`/users/${id}`, formData);
@@ -39,3 +40,5 @@ export const getBranches = () => API.get('/branches');
 export const createBranch = (branch) => API.post('/branches', branch);
 export const editBranch = (id, branch) => API.post(`/branches/${id}`, branch);
 export const deleteBranch = (id) => API.delete(`/branches/${id}`);
+
+export const createJNF = (jnf) => API.post('/jnfs', jnf);

@@ -10,6 +10,7 @@ const allRoles = {
     'getOrEditCompanies',
     'createOrDeleteCompanies',
     'getJnfs',
+    'manageJnfs',
   ],
 };
 

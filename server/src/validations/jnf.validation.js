@@ -41,7 +41,7 @@ const createJnf = {
     ctcBreakup: Joi.string().required(),
     bondDetail: Joi.string(),
     uploadedDocs: Joi.string(),
-    createdBy: Joi.string().required().custom(objectId),
+    createdBy: Joi.string().custom(objectId),
     gradYear: Joi.number().required(),
   }),
 };

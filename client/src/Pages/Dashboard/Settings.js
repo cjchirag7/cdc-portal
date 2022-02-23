@@ -14,6 +14,7 @@ import {
   InputLabel,
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import * as api from '../../api';
 import showToast from '../../utils/showToastNotification';
 import { ERROR } from '../../store/types';
@@ -145,7 +146,7 @@ const Settings = ({ placement, intern2, intern6 }) => {
 
   const CourseCard = ({ courseData }) => {
     return (
-      <Card variant="outlined" sx={{ margin: '5px', width: '250px' }}>
+      <Card variant="outlined" sx={{ margin: '5px', width: '250px', boxShadow: 3 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {courseData.duration} Years
@@ -156,12 +157,18 @@ const Settings = ({ placement, intern2, intern6 }) => {
           <Typography variant="body2">Admitted through {courseData.adm_mode}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="outlined" startIcon={<EditIcon />} onClick={() => handleCourseEdit(courseData)}>
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={<EditIcon />}
+            onClick={() => handleCourseEdit(courseData)}
+          >
             Edit
           </Button>
           <Button
+            color="error"
             size="small"
-            variant="outlined"
+            variant="contained"
             startIcon={<DeleteIcon />}
             onClick={() => handleCourseDelete(courseData.id)}
           >
@@ -174,7 +181,7 @@ const Settings = ({ placement, intern2, intern6 }) => {
 
   const BranchCard = ({ branchData }) => {
     return (
-      <Card variant="outlined" sx={{ margin: '5px', width: '250px' }}>
+      <Card variant="outlined" sx={{ margin: '5px', width: '250px', boxShadow: 3 }}>
         <CardContent>
           <Typography variant="h5" component="div">
             {branchData.name}
@@ -182,12 +189,18 @@ const Settings = ({ placement, intern2, intern6 }) => {
           <Typography variant="body2">{branchData.courseType}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="outlined" startIcon={<EditIcon />} onClick={() => handleBranchEdit(branchData)}>
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={<EditIcon />}
+            onClick={() => handleBranchEdit(branchData)}
+          >
             Edit
           </Button>
           <Button
+            color="error"
             size="small"
-            variant="outlined"
+            variant="contained"
             startIcon={<DeleteIcon />}
             onClick={() => handleBranchDelete(branchData.id)}
           >
@@ -324,9 +337,14 @@ const Settings = ({ placement, intern2, intern6 }) => {
       </Box>
       <Box sx={{ margin: '20px' }}>
         <CourseForm />
-        <Typography variant="h5" gutterBottom>
-          Courses
-        </Typography>
+        <Container sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+          <Typography variant="h5" gutterBottom>
+            Courses
+          </Typography>
+          <Button variant="contained" startIcon={<AddIcon />}>
+            Add Course
+          </Button>
+        </Container>
         <Container sx={{ display: 'flex', flexWrap: 'wrap' }}>
           {courses.map((courseData, idx) => (
             <CourseCard key={idx} courseData={courseData}></CourseCard>
@@ -335,9 +353,14 @@ const Settings = ({ placement, intern2, intern6 }) => {
       </Box>
       <Box sx={{ margin: '20px' }}>
         <BranchForm />
-        <Typography variant="h5" gutterBottom>
-          Branches
-        </Typography>
+        <Container sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+          <Typography variant="h5" gutterBottom>
+            Branches
+          </Typography>
+          <Button variant="contained" startIcon={<AddIcon />}>
+            Add Branch
+          </Button>
+        </Container>
         <Container sx={{ display: 'flex', flexWrap: 'wrap' }}>
           {branches.map((branchData, idx) => (
             <BranchCard key={idx} branchData={branchData}></BranchCard>
