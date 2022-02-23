@@ -7,13 +7,14 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Step from '@mui/material/Step';
 
+import showToast from '../../../utils/showToastNotification';
+import { ERROR } from '../../../store/types';
 import POCDetails from './steps/POCDetails';
 import CompanyDetails from './steps/CompanyDetails';
 import JobProfile from './steps/JobProfile';
 import EligibleBranches from './steps/EligibleBranches';
 import SelectionProcess from './steps/SelectionProcess';
 import CTCDetails from './steps/CTCDetails';
-import convertToSlug from '../../../utils/convertToSlug';
 
 export default function NewJNF(steps = 1) {
   const currentUser = JSON.parse(localStorage.getItem('cdc-iit-ism-profile')).user;
@@ -53,7 +54,7 @@ export default function NewJNF(steps = 1) {
     setActiveStep(0);
   };
 
-  const handleComplete = async () => {
+  const createJnfObject = () => {
     const otherRoundArray = [];
     if (selectionProcess.GD) otherRoundArray.push('GD');
     if (selectionProcess.caseStudy) otherRoundArray.push('caseStudey');
@@ -76,26 +77,30 @@ export default function NewJNF(steps = 1) {
       ],
       company: {
         ...companyDetail,
-        _id: convertToSlug(companyDetail.name),
       },
       jobDesignation: jobProfile.designation,
       jobDesc: jobProfile.description,
       postingPlace: jobProfile.place,
       branches: [{ branch: '62146dcf767f815e9484ac26' }],
+      ...ctcDetail,
       resume: selectionProcess.resume,
       testType: selectionProcess.testType,
       otherRound: otherRoundArray,
       totalRounds: selectionProcess.totalRounds,
       offerRange: selectionProcess.offerRange,
       gradYear: 2024,
+      eligCriteria: 'no',
     };
-    console.log(jnfObject);
+    return jnfObject;
+  };
+
+  const handleComplete = async () => {
     try {
-      console.log('request started ...');
-      const res = await api.createJNF(jnfObject);
-      console.log(res);
+      const JNFObject = createJnfObject();
+      await api.createJNF(JNFObject);
     } catch (e) {
-      console.log(e);
+      const message = e?.response?.data?.message || 'Error in creating JNF!';
+      showToast(ERROR, message);
     }
   };
 

@@ -40,7 +40,6 @@ export default function CTCDetails({
     validate,
     onSubmit: (values) => {
       setCTCDetail(values);
-      console.log(values);
       handleNext();
     },
   });

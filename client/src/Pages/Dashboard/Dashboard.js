@@ -56,6 +56,9 @@ export default function Dashboard() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const isAdmin = authData?.user?.role === ADMIN;
+  const isUser = authData?.user?.role === USER;
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -72,7 +75,6 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
-  const pages = ['DATA1', 'DATA2', 'DATA3'];
   const list = () => (
     <Box
       sx={{ width: '250', mt: '55px', pl: '70px', backgroundColor: 'primary.main', color: 'white' }}
@@ -80,11 +82,32 @@ export default function Dashboard() {
       onClose={toggleResponsiveHeader}
     >
       <List>
-        {pages.map((text) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
+        <ListItem button>
+          <ListItemText primary="JNF" />
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary="INF" />
+        </ListItem>
+        {isUser && (
+          <ListItem
+            button
+            onClick={() => {
+              history.push('/dashboard/new-jnf');
+            }}
+          >
+            <ListItemText primary="Create JNF" />
           </ListItem>
-        ))}
+        )}
+        {isAdmin && (
+          <ListItem
+            button
+            onClick={() => {
+              history.push('/dashboard/settings');
+            }}
+          >
+            <ListItemText primary="SETTINGS" />
+          </ListItem>
+        )}
       </List>
       <Divider />
     </Box>
@@ -112,23 +135,40 @@ export default function Dashboard() {
               {list()}
             </Drawer>
           </React.Fragment>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              history.push('/dashboard');
+            }}
+          >
             CDC IIT(ISM)
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button key={page} sx={{ my: 2, color: 'white', display: 'block', ml: '25px' }}>
-                {page}
+            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>JNF</Button>
+            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>INF</Button>
+            {isAdmin && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/settings');
+                }}
+              >
+                Settings
               </Button>
-            ))}
-            <Button
-              sx={{ my: 2, color: 'white', display: 'block', ml: '25px' }}
-              onClick={() => {
-                history.push('/dashboard/settings');
-              }}
-            >
-              Settings
-            </Button>
+            )}
+            {isUser && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/new-jnf');
+                }}
+              >
+                Create JNF
+              </Button>
+            )}
           </Box>
           <IconButton
             size="large"
@@ -191,7 +231,7 @@ export default function Dashboard() {
         <Switch>
           <RoleBasedRoute path="/dashboard/users" exact component={Users} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
-          <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
