@@ -27,8 +27,8 @@ const updateBranch = {
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string().required(),
-      courseType: Joi.string().required(),
+      name: Joi.string(),
+      courseType: Joi.string(),
       courseStruct: Joi.string(),
     })
     .min(1),

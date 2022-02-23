@@ -50,11 +50,13 @@ const jnfSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    otherRound: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    otherRound: [
+      {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    ],
     totalRounds: {
       type: Number,
     },
@@ -81,6 +83,7 @@ const jnfSchema = mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'User',
     },
     gradYear: {
       type: Number,

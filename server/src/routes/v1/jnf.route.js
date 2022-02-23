@@ -45,7 +45,7 @@ module.exports = router;
  *               - primaryContact:
  *                 - name
  *                 - email
- *               - comapny:
+ *               - company:
  *                 - name
  *                 - website
  *                 - category
@@ -60,25 +60,107 @@ module.exports = router;
  *               - ctcBreakup
  *               - gradYear
  *             properties:
- *               name:
+ *               id:
  *                 type: string
- *               email:
+ *               primaryContact:
+ *                 id:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                 name:
+ *                   type: string
+ *                 designation:
+ *                   type: string
+ *                 phone:
+ *                   type: string
+ *               secondaryContact:
+ *                 - id:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                   name:
+ *                     type: string
+ *                   designation:
+ *                     type: string
+ *                   phone:
+ *                     type: string
+ *               company:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 website:
+ *                   type: string
+ *                   format: uri
+ *                 category:
+ *                   type: string
+ *               jobDesignation:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
+ *               jobDesc:
  *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [jnf, admin]
+ *               postingPlace:
+ *                 type: string
+ *               branches:
+ *                 - branch:
+ *                     type: string
+ *               skillsRequired:
+ *                 type: string
+ *               eligCriteria:
+ *                 type: string
+ *               resume:
+ *                 type: boolean
+ *               testType:
+ *                 type: string
+ *               otherRound:
+ *                 - type: string
+ *               totalRounds:
+ *                 type: number
+ *               offerRange:
+ *                 type: string
+ *               ctc:
+ *                 type: number
+ *               ctcBreakup:
+ *                 type: string
+ *               bondDetail:
+ *                 type: string
+ *               uploadedDocs:
+ *                 type: string
+ *               createdBy:
+ *                 type: string
+ *               gradYear:
+ *                 type: number
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: jnf
+ *              primaryContact:
+ *                name: lorem
+ *                email: example@gmail.com
+ *                designation: HR
+ *              secondaryContact:
+ *              - name: lorem
+ *                email: example@gmail.com
+ *              company:
+ *                name: Test Company
+ *                website: https://www.test-company.com
+ *                category: Software / IT
+ *              jobDesignation: SDE
+ *              jobDesc: Lorem ipsum dolor sit amet consectetur adipisicing elit.     Expedita, consequuntur.
+ *              postingPlace: Delhi
+ *              branches:
+ *              - branch: 621455620b0f1e2418e49c2e
+ *              - branch: 62146dcf767f815e9484ac26
+ *              skillsRequired: C,C++
+ *              eligCriteria: Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequatur, possimus.
+ *              resume: 'true'
+ *              testType: Technical
+ *              otherRound:
+ *              - GD
+ *              totalRounds: '3'
+ *              ctc: '25'
+ *              ctcBreakup: Lorem ipsum dolor sit amet
+ *              createdBy: 6210f93623d75359239b903e
+ *              gradYear: '2023'
+ *
  *     responses:
  *       "201":
  *         description: Created
@@ -86,8 +168,6 @@ module.exports = router;
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/Jnf'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -135,7 +215,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Jnf'
+ *                     $ref: '#/components/schemas/summarisedJnf'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -204,21 +284,83 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               id:
  *                 type: string
- *               email:
+ *               primaryContact:
+ *                 id:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                 name:
+ *                   type: string
+ *                 designation:
+ *                   type: string
+ *                 phone:
+ *                   type: string
+ *               secondaryContact:
+ *                 - id:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                     format: email
+ *                   name:
+ *                     type: string
+ *                   designation:
+ *                     type: string
+ *                   phone:
+ *                     type: string
+ *               company:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 website:
+ *                   type: string
+ *                   format: uri
+ *                 category:
+ *                   type: string
+ *               jobDesignation:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
+ *               jobDesc:
  *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
+ *               postingPlace:
+ *                 type: string
+ *               branches:
+ *                 - branch:
+ *                     type: string
+ *               skillsRequired:
+ *                 type: string
+ *               eligCriteria:
+ *                 type: string
+ *               resume:
+ *                 type: boolean
+ *               testType:
+ *                 type: string
+ *               otherRound:
+ *                 - type: string
+ *               totalRounds:
+ *                 type: number
+ *               offerRange:
+ *                 type: string
+ *               ctc:
+ *                 type: number
+ *               ctcBreakup:
+ *                 type: string
+ *               bondDetail:
+ *                 type: string
+ *               uploadedDocs:
+ *                 type: string
+ *               createdBy:
+ *                 type: string
+ *               gradYear:
+ *                 type: number
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
+ *               primaryContact:
+ *                 name: lorem
+ *                 email: example2@gmail.com
+ *                 designation: HR
+ *               jobDesignation: Developer
  *     responses:
  *       "200":
  *         description: OK
@@ -226,8 +368,6 @@ module.exports = router;
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/Jnf'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
