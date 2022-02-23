@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Jnf } = require('../models');
 const ApiError = require('../utils/ApiError');
+const convertToSlug = require('../utils/convertToSlug');
 
 /**
  * Create a jnf
@@ -8,7 +9,11 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Jnf>}
  */
 const createJnf = async (jnfBody, id) => {
-  return Jnf.create({ ...jnfBody, createdBy: id });
+  return Jnf.create({
+    ...jnfBody,
+    company: { ...jnfBody.company, _id: convertToSlug(jnfBody.company.name) },
+    createdBy: id,
+  });
 };
 
 /**
@@ -23,11 +28,12 @@ const createJnf = async (jnfBody, id) => {
  * @returns {Promise<QueryResult>}
  */
 const queryJnfs = async (filter, options, role, createdBy) => {
+  const displayFields = { createdBy: 1, _id: 1, company: 1, gradYear: 1, jobDesignation: 1, primaryContact: 1 };
   if (role === 'admin') {
-    const jnfs = await Jnf.paginate(filter, options);
+    const jnfs = await Jnf.paginate(filter, options, displayFields);
     return jnfs;
   }
-  const jnfs = await Jnf.find(createdBy);
+  const jnfs = await Jnf.find({ createdBy }, displayFields);
   return jnfs;
 };
 

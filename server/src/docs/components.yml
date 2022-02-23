@@ -46,6 +46,190 @@ components:
         website: https://www.test-company.com
         category: Software / IT
 
+    Branch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        courseType:
+          type: string
+        courseStruct:
+          type: string
+      example: 
+        name: fake branch
+        courseType: B Tech
+        courseStruct: www.example.com
+
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        duration:
+          type: number
+        adm_mode:
+          type: string
+      example: 
+        name: fake course
+        duration: 4
+        adm_mode: fake mode
+
+    Jnf: 
+      type: object
+      properties:
+        id:
+          type: string
+        primaryContact:
+          id:
+            type: string
+          email:
+            type: string
+            format: email
+          name:
+            type: string
+          designation:
+            type: string
+          phone:
+            type: string
+        secondaryContact:
+          - id:
+              type: string
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+            designation:
+              type: string
+            phone:
+              type: string
+        company:
+          id:
+            type: string
+          name:
+            type: string
+          website:
+            type: string
+            format: uri          
+          category:
+            type: string
+        jobDesignation:
+          type: string
+        jobDesc:
+          type: string
+        postingPlace:
+          type: string
+        branches:
+          - branch: 
+              type: string
+        skillsRequired:
+          type: string
+        eligCriteria:
+          type: string
+        resume:
+          type: boolean
+        testType:
+          type: string
+        otherRound:
+          - type: string
+        totalRounds:
+          type: number
+        offerRange:
+          type: string
+        ctc:
+          type: number
+        ctcBreakup:
+          type: string
+        bondDetail:
+          type: string
+        uploadedDocs:
+          type: string
+        createdBy:
+          type: string
+        gradYear:
+          type: number
+      example: 
+        primaryContact:
+          name: lorem
+          email: example@gmail.com
+          designation: HR
+        secondaryContact:
+        - name: lorem
+          email: example@gmail.com
+        company:
+          name: Test Company
+          website: https://www.test-company.com
+          category: Software / IT
+        jobDesignation: SDE
+        jobDesc: Lorem ipsum dolor sit amet consectetur adipisicing elit.Expedita, consequuntur.
+        postingPlace: Delhi
+        branches:
+        - branch: 621455620b0f1e2418e49c2e
+        - branch: 62146dcf767f815e9484ac26
+        skillsRequired: 
+        - C,C++
+        eligCriteria: Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequatur,
+          possimus.
+        resume: 'true'
+        testType: Technical
+        otherRound:
+        - GD
+        totalRounds: '3'
+        ctc: '25'
+        ctcBreakup: Lorem ipsum dolor sit amet
+        createdBy: 6210f93623d75359239b903e
+        gradYear: '2023'
+
+    summarisedJnf: 
+      type: object
+      properties:
+        id:
+          type: string
+        primaryContact:
+          id:
+            type: string
+          email:
+            type: string
+            format: email
+          name:
+            type: string
+          designation:
+            type: string
+          phone:
+            type: string
+        company:
+          id:
+            type: string
+          name:
+            type: string
+          website:
+            type: string
+            format: uri          
+          category:
+            type: string
+        jobDesignation:
+          type: string
+        createdBy:
+          type: string
+        gradYear:
+          type: number
+      example: 
+        primaryContact:
+          name: lorem
+          email: example@gmail.com
+          designation: HR
+        company:
+          name: Test Company
+          website: https://www.test-company.com
+          category: Software / IT
+        jobDesignation: SDE
+        createdBy: 6210f93623d75359239b903e
+        gradYear: '2023'
+
     Token:
       type: object
       properties:
@@ -93,6 +277,24 @@ components:
           example:
             code: 400
             message: A company with this name already exists.
+    DuplicateCourse:
+      description: Course name already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: A course with this name already exists.
+    DuplicateBranch:
+      description: Branch with same course type already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: A branch with the same course type already exists.
     Unauthorized:
       description: Unauthorized
       content:

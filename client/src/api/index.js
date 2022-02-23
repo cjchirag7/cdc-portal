@@ -4,6 +4,7 @@ import { PROFILE_KEY } from '../store/constants';
 const API = axios.create({
   baseURL: 'http://localhost:5000/v1/',
   // Use http://localhost:5000/v1/ in development
+  // Use https://cdc-portal-believers.herokuapp.com/ in production
 });
 
 API.interceptors.request.use((req) => {
