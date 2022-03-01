@@ -102,9 +102,9 @@ export const LabeledCheckbox = ({ label, checked }) => (
 
 export const EligibleBranchList = ({ allBranch, eligibleBranch }) => (
   <View>
-    {allBranch.map((branch) => {
+    {allBranch?.map((branch, idx) => {
       const res = eligibleBranch.includes(branch);
-      return <CourseCheckbox key={branch} title={branch} checked={res} />;
+      return <CourseCheckbox key={idx} title={branch.name} checked={res} />;
     })}
   </View>
 );
