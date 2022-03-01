@@ -37,8 +37,12 @@ export const editCourse = (id, course) => API.patch(`/courses/${id}`, course);
 export const deleteCourse = (id) => API.delete(`/course/${id}`);
 
 export const getBranches = () => API.get('/branches');
+export const getBranch = (course) => API.get('/branches', { params: { courseType: course } });
 export const createBranch = (branch) => API.post('/branches', branch);
 export const editBranch = (id, branch) => API.post(`/branches/${id}`, branch);
 export const deleteBranch = (id) => API.delete(`/branches/${id}`);
 
+export const getJNFs = () => API.get('/jnfs');
+export const getJNF = (id) => API.get(`/jnfs/${id}`);
 export const createJNF = (jnf) => API.post('/jnfs', jnf);
+export const deleteJNF = (id) => API.get(`/jnfs/${id}`);

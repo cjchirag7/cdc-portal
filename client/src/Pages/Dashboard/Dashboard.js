@@ -147,8 +147,46 @@ export default function Dashboard() {
             CDC IIT(ISM)
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>JNF</Button>
-            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>INF</Button>
+            {isAdmin && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/jnfs');
+                }}
+              >
+                JNF
+              </Button>
+            )}
+            {isUser && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/my-jnfs');
+                }}
+              >
+                JNF
+              </Button>
+            )}
+            {isAdmin && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/infs');
+                }}
+              >
+                INF
+              </Button>
+            )}
+            {isUser && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/my-infs');
+                }}
+              >
+                INF
+              </Button>
+            )}
             {isAdmin && (
               <Button
                 sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
@@ -235,7 +273,7 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
-          <RoleBasedRoute path="/dashboard/viewjnf" exact component={ViewJNF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/jnf/:id" exact component={ViewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfpdf" exact component={JNF_PDF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
