@@ -41,9 +41,9 @@ export const CourseCheckbox = ({ title, ...otherProps }) => (
 
 export const EligibleBranchList = ({ allBranch, eligibleBranch }) => (
   <Box>
-    {allBranch.map((branch) => {
-      const res = eligibleBranch.includes(branch);
-      return <CourseCheckbox key={branch} title={branch} disabled defaultChecked={res} />;
+    {allBranch?.map((branch) => {
+      const res = eligibleBranch.includes(branch.id);
+      return <CourseCheckbox key={branch.id} title={branch.name} disabled defaultChecked={res} />;
     })}
   </Box>
 );
