@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import MiniSpinner from '../../../components/common/MiniSpinner';
 // import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import { ERROR, SUCCESS } from '../../../store/types';
 import { getComparator, stableSort } from '../../../utils/tableSortFunctions';
 import showToast from '../../../utils/showToastNotification';
@@ -93,6 +94,10 @@ export default function JNFList() {
     history.push(`/dashboard/jnf/${id}`);
   };
 
+  const previewJNF = (id) => {
+    history.push(`/dashboard/preview-jnf/${id}`);
+  };
+
   React.useEffect(async () => {
     try {
       const { data } = await api.getJNFs();
@@ -148,6 +153,12 @@ export default function JNFList() {
       label: 'View',
     },
     {
+      id: 'printPreview',
+      numeric: false,
+      disablePadding: false,
+      label: 'Print Preview',
+    },
+    {
       id: 'delete',
       numeric: false,
       disablePadding: false,
@@ -186,6 +197,13 @@ export default function JNFList() {
                         <Tooltip title="View">
                           <IconButton size="small" sx={{ ml: '5px', mb: '5px' }} onClick={() => openJNF(jnf.id)}>
                             <VisibilityIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Tooltip title="Print Preview">
+                          <IconButton size="small" sx={{ ml: '5px', mb: '5px' }} onClick={() => previewJNF(jnf.id)}>
+                            <DocumentScannerIcon />
                           </IconButton>
                         </Tooltip>
                       </StyledTableCell>
