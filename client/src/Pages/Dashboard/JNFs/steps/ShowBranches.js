@@ -21,6 +21,7 @@ const ShowBranches = ({
           <FormControlLabel value={false} control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
+      <br />
       {course.required && (
         <FormControl>
           <FormLabel id="courseBranches">{label2}</FormLabel>
@@ -32,7 +33,10 @@ const ShowBranches = ({
               key={branch}
               value={course.branches[branch]}
               control={
-                <Checkbox checked={courseAll || course.branches[branch]} onChange={() => handleCourseBranch(branch)} />
+                <Checkbox
+                  checked={courseAll || course.branches[branch].eligible}
+                  onChange={() => handleCourseBranch(branch)}
+                />
               }
             />
           ))}

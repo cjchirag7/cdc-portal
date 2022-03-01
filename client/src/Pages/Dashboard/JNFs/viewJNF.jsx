@@ -21,7 +21,7 @@ import {
   otherQualificationRounds,
 } from '../JNFs/data';
 
-const ViewJNF = () => {
+const ViewJNF = ({ JNFObject }) => {
   return (
     <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
       <Box
@@ -37,34 +37,38 @@ const ViewJNF = () => {
       <Box>
         <Paper id="1" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
           <Heading title="COMPANY OVERVIEW" />
-          <ViewElement title="Name" body={JNF_FORM_DATA['company-overview'].name} />
-          <ViewElement title="Website" body={JNF_FORM_DATA['company-overview'].website} link />
-          <ViewElement title="Category" body={JNF_FORM_DATA['company-overview'].category} />
+          <ViewElement title="Name" body={JNFObject.company.name} />
+          <ViewElement title="Website" body={JNFObject.company.website} link />
+          <ViewElement title="Category" body={JNFObject.company.category} />
         </Paper>
         <Paper id="2" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
           <Heading title="JOB DETAILS" />
-          <ViewElement title="Designation" body={JNF_FORM_DATA['job-details'].designation} />
-          <ViewElement title="Place of posting" body={JNF_FORM_DATA['job-details'].place} />
-          <ViewElement title="Job description" body={JNF_FORM_DATA['job-details'].description} />
+          <ViewElement title="Designation" body={JNFObject.jobDesignation} />
+          <ViewElement title="Place of posting" body={JNFObject.postingPlace} />
+          <ViewElement title="Job description" body={JNFObject.jobDesc} />
         </Paper>
         <Paper id="3" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
           <Heading title="SALARY DETAILS" />
-          <ViewElement title="CTC (in LPA)" body={JNF_FORM_DATA['salary-details'].ctc} />
-          <ViewElement title="CTC Breakup" body={JNF_FORM_DATA['salary-details']['ctc-breakup']} />
-          <ViewElement title="Bond Details (If any)" body={JNF_FORM_DATA['salary-details']['bond-details']} />
+          <ViewElement title="CTC (in LPA)" body={JNFObject.ctc} />
+          <ViewElement title="CTC Breakup" body={JNFObject.ctcBreakup} />
+          <ViewElement title="Bond Details (If any)" body={JNFObject.bondDetail} />
         </Paper>
         <Paper id="4" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
           <Heading title="CONTACT PERSONNEL DETAILS" />
           <SubHeading title="Primary Contact -" />
-          <ViewElement title="Name" body={JNF_FORM_DATA['contact-details'].primary.name} />
-          <ViewElement title="Designation" body={JNF_FORM_DATA['contact-details'].primary.designation} />
-          <ViewElement title="Email Address" body={JNF_FORM_DATA['contact-details'].primary.email} email />
-          <ViewElement title="Mobile Number" body={JNF_FORM_DATA['contact-details'].primary.mobile} />
-          <SubHeading title="Secondary Contact (if any) -" />
-          <ViewElement title="Name" body={JNF_FORM_DATA['contact-details'].secondary.name} />
-          <ViewElement title="Designation" body={JNF_FORM_DATA['contact-details'].secondary.designation} />
-          <ViewElement title="Email Address" body={JNF_FORM_DATA['contact-details'].secondary.email} email />
-          <ViewElement title="Mobile Number" body={JNF_FORM_DATA['contact-details'].secondary.mobile} />
+          <ViewElement title="Name" body={JNFObject.primaryContact.name} />
+          <ViewElement title="Designation" body={JNFObject.primaryContact.designation} />
+          <ViewElement title="Email Address" body={JNFObject.primaryContact.email} email />
+          <ViewElement title="Mobile Number" body={JNFObject.primaryContact.mobile} />
+          {JNFObject.secondaryContact && (
+            <Box>
+              <SubHeading title="Secondary Contact (if any) -" />
+              <ViewElement title="Name" body={JNFObject.secondaryContact.name} />
+              <ViewElement title="Designation" body={JNFObject.secondaryContact.designation} />
+              <ViewElement title="Email Address" body={JNFObject.secondaryContact.email} email />
+              <ViewElement title="Mobile Number" body={JNFObject.secondaryContact.mobile} />
+            </Box>
+          )}
         </Paper>
         <Paper id="5" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
           <Heading title="ELIGIBLE COURSES & DISCIPLINES" />
@@ -125,15 +129,11 @@ const ViewJNF = () => {
             </Typography>
             <Box sx={{ width: '60%', display: 'flex' }}>
               <FormControlLabel
-                control={
-                  <Checkbox disabled defaultChecked={JNF_FORM_DATA['selection-procedure']['Resume Shortlisting']} />
-                }
+                control={<Checkbox disabled defaultChecked={JNFObject.resume === 'true'} />}
                 label="Yes"
               />
               <FormControlLabel
-                control={
-                  <Checkbox disabled defaultChecked={!JNF_FORM_DATA['selection-procedure']['Resume Shortlisting']} />
-                }
+                control={<Checkbox disabled defaultChecked={!(JNFObject.resume === 'true')} />}
                 label="No"
               />
             </Box>
@@ -144,7 +144,7 @@ const ViewJNF = () => {
             </Typography>
             <Box sx={{ width: '60%' }}>
               {typeOfTest.map((type) => {
-                return type === JNF_FORM_DATA['selection-procedure']['Type of Test'] ? (
+                return type === JNFObject.testType ? (
                   <FormControlLabel key={type} control={<Checkbox disabled defaultChecked />} label={type} />
                 ) : (
                   <FormControlLabel key={type} control={<Checkbox disabled />} label={type} />
@@ -158,7 +158,7 @@ const ViewJNF = () => {
             </Typography>
             <Box sx={{ width: '60%' }}>
               {otherQualificationRounds.map((round) => {
-                return JNF_FORM_DATA['selection-procedure']['other-qualification-rounds'].includes(round) ? (
+                return JNFObject.otherRound.includes(round) ? (
                   <FormControlLabel key={round} control={<Checkbox disabled defaultChecked />} label={round} />
                 ) : (
                   <FormControlLabel key={round} control={<Checkbox disabled />} label={round} />
@@ -166,15 +166,12 @@ const ViewJNF = () => {
               })}
             </Box>
           </Box>
-          <ViewElement title="Total number of rounds" body={JNF_FORM_DATA['selection-procedure'].totalRound} />
+          <ViewElement title="Total number of rounds" body={JNFObject.totalRounds} />
           <ViewElement
             title="Number of offers available for IIT(ISM) students (Range would be sufficient)"
-            body={JNF_FORM_DATA['selection-procedure']['number-of-offers']}
+            body={JNFObject.offerRange}
           />
-          <ViewElement
-            title="Eligibility Criteria (if any)"
-            body={JNF_FORM_DATA['selection-procedure']['eligibility-criteria']}
-          />
+          <ViewElement title="Eligibility Criteria (if any)" body={JNFObject.eligCriteria} />
         </Paper>
       </Box>
     </Container>

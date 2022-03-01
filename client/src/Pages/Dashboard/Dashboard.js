@@ -31,6 +31,7 @@ import MyINFs from './INFs/myINF';
 import ViewJNF from './JNFs/viewJNF';
 import JNF_PDF from './JNFs/jnf-pdf/jnfPDF';
 import Settings from './Settings';
+import PreviewJNF from './JNFs/PreviewJNF';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -82,29 +83,19 @@ export default function Dashboard() {
       onClose={toggleResponsiveHeader}
     >
       <List>
-        <ListItem button>
+        <ListItem button onClick={() => history.push('/dashboard/jnfs')}>
           <ListItemText primary="JNF" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => history.push('/dashboard/infs')}>
           <ListItemText primary="INF" />
         </ListItem>
         {isUser && (
-          <ListItem
-            button
-            onClick={() => {
-              history.push('/dashboard/new-jnf');
-            }}
-          >
+          <ListItem button onClick={() => history.push('/dashboard/new-jnf')}>
             <ListItemText primary="Create JNF" />
           </ListItem>
         )}
         {isAdmin && (
-          <ListItem
-            button
-            onClick={() => {
-              history.push('/dashboard/settings');
-            }}
-          >
+          <ListItem button onClick={() => history.push('/dashboard/settings')}>
             <ListItemText primary="SETTINGS" />
           </ListItem>
         )}
@@ -147,8 +138,18 @@ export default function Dashboard() {
             CDC IIT(ISM)
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>JNF</Button>
-            <Button sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}>INF</Button>
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+              onClick={() => history.push('/dashboard/jnfs')}
+            >
+              JNF
+            </Button>
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+              onClick={() => history.push('/dashboard/infs')}
+            >
+              INF
+            </Button>
             {isAdmin && (
               <Button
                 sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
@@ -238,6 +239,7 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/viewjnf" exact component={ViewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfpdf" exact component={JNF_PDF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/final-preview" exact component={PreviewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />
         </Switch>

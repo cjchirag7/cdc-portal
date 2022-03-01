@@ -55,7 +55,7 @@ export default function SelectionProcess({
 }) {
   const formik = useFormik({
     initialValues: {
-      resume: null,
+      resume,
       testType,
       GD,
       caseStudy,

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as api from '../../../api';
+import { useHistory } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Button from '@mui/material/Button';
@@ -17,30 +18,54 @@ import SelectionProcess from './steps/SelectionProcess';
 import CTCDetails from './steps/CTCDetails';
 
 export default function NewJNF(steps = 1) {
+  const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('cdc-iit-ism-profile')).user;
   const { name: pName, designation: pDesignation, phone, email: pEmail } = currentUser;
   const { name: cName, website, category } = currentUser.company;
-
+  const {
+    name: sName = '',
+    designation: sDesignation = '',
+    phone: sPhone = '',
+    email: sEmail = '',
+  } = JSON.parse(localStorage.getItem('JNFObject'))?.secondaryContact?.[0] || {};
   const [activeStep, setActiveStep] = React.useState(0);
   const [pocDetail, setPocDetail] = React.useState({
     pName,
     pDesignation,
     pPhone: phone.slice(4),
     pEmail,
+    sName,
+    sDesignation,
+    sPhone,
+    sEmail,
   });
   const [companyDetail, setCompanyDetail] = React.useState({ name: cName, website, category });
-  const [jobProfile, setJobProfile] = React.useState({ designation: '', description: '', place: '' });
-  const [eligibleBranches, setElibigleBranches] = React.useState([]);
+  const {
+    jobDesignation: designation,
+    jobDesc: description,
+    postingPlace: place,
+  } = JSON.parse(localStorage.getItem('JNFObject')) || {};
+  const [jobProfile, setJobProfile] = React.useState({ designation, description, place });
+  const { branches = [], eligCriteria: eligibility = '' } = JSON.parse(localStorage.getItem('JNFObject')) || {};
+  const [eligibleObj, setElibigleObj] = React.useState({ branches, eligibility });
+  const {
+    resume = null,
+    testType = '',
+    totalRounds = '',
+    offerRange = '',
+    otherRound,
+  } = JSON.parse(localStorage.getItem('JNFObject')) || {};
   const [selectionProcess, setSelectionProcess] = React.useState({
-    resume: null,
-    testType: null,
-    GD: false,
-    caseStudy: false,
-    interview: false,
-    totalRounds: '',
-    offerRange: '',
+    resume,
+    testType,
+    GD: otherRound ? otherRound.includes('GD') : false,
+    caseStudy: otherRound ? otherRound.includes('caseStudy') : false,
+    interview: otherRound ? otherRound.includes('interview') : false,
+    totalRounds,
+    offerRange,
   });
-  const [ctcDetail, setCTCDetail] = React.useState({ ctc: '', ctcBreakup: '', bondDetail: '' });
+  const { ctc = '', ctcBreakup = '', bondDetail = '' } = JSON.parse(localStorage.getItem('JNFObject')) || {};
+  const [ctcDetail, setCTCDetail] = React.useState({ ctc, ctcBreakup, bondDetail });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -67,21 +92,13 @@ export default function NewJNF(steps = 1) {
         email: pocDetail.pEmail,
         phone: pocDetail.pPhone,
       },
-      secondaryContact: [
-        {
-          name: pocDetail.sName,
-          designation: pocDetail.sDesignation,
-          email: pocDetail.sEmail,
-          phone: pocDetail.sPhone,
-        },
-      ],
       company: {
         ...companyDetail,
       },
       jobDesignation: jobProfile.designation,
       jobDesc: jobProfile.description,
       postingPlace: jobProfile.place,
-      branches: [{ branch: '62146dcf767f815e9484ac26' }],
+      branches: eligibleObj.branches,
       ...ctcDetail,
       resume: selectionProcess.resume,
       testType: selectionProcess.testType,
@@ -89,20 +106,58 @@ export default function NewJNF(steps = 1) {
       totalRounds: selectionProcess.totalRounds,
       offerRange: selectionProcess.offerRange,
       gradYear: 2024,
-      eligCriteria: 'no',
+      eligCriteria: eligibleObj.eligibility,
     };
+    if (pocDetail.sName)
+      jnfObject.secondaryContact = [
+        {
+          name: pocDetail.sName,
+          designation: pocDetail.sDesignation,
+          email: pocDetail.sEmail,
+          phone: pocDetail.sPhone,
+        },
+      ];
     return jnfObject;
   };
 
   const handleComplete = async () => {
     try {
       const JNFObject = createJnfObject();
-      await api.createJNF(JNFObject);
+      localStorage.setItem('JNFObject', JSON.stringify(JNFObject));
+      history.push('/dashboard/final-preview');
     } catch (e) {
       const message = e?.response?.data?.message || 'Error in creating JNF!';
       showToast(ERROR, message);
     }
   };
+  const [data, setData] = React.useState({});
+  const [branchLoading, setBranchLoading] = React.useState(true);
+  React.useEffect(async () => {
+    try {
+      const inititalState = {};
+      const allBranch = await api.getBranches();
+      for (const branch of allBranch.data) {
+        if (!inititalState[branch.courseType]) inititalState[branch.courseType] = {};
+        inititalState[branch.courseType].required = true;
+        if (!inititalState[branch.courseType].branches) inititalState[branch.courseType].branches = {};
+        let isEligible = false;
+        eligibleObj.branches.forEach((obj) => {
+          if (obj.branch === branch.id) isEligible = true;
+        });
+        inititalState[branch.courseType].branches[branch.name] = {
+          eligible: isEligible,
+          id: branch.id,
+          courseStruct: branch.courseStruct,
+        };
+      }
+      setData(inititalState);
+    } catch (e) {
+      const message = e?.response?.data?.message || 'Error in fetching branches!';
+      showToast(ERROR, message);
+    } finally {
+      setBranchLoading(false);
+    }
+  }, []);
 
   return (
     <Box sx={{ maxWidth: 600, m: 'auto' }}>
@@ -140,14 +195,23 @@ export default function NewJNF(steps = 1) {
           />
         </Step>
         <Step key={4}>
-          <EligibleBranches
-            firstStep={false}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            eligibleBranches={eligibleBranches}
-            setElibigleBranches={setElibigleBranches}
-          />
+          {!branchLoading && (
+            <EligibleBranches
+              firstStep={false}
+              lastStep={false}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              pEligibility={eligibleObj.eligibility}
+              setElibigleObj={setElibigleObj}
+              pBtech={data.btech}
+              pDualDegree={data['dual-degree-integrated-mtech']}
+              pMsc={data.msc}
+              pMscTech={data['msc-tech']}
+              pPhd={data.phd}
+              pMtech={data.mtech}
+              pMba={data.mba}
+            />
+          )}
         </Step>
         <Step key={5}>
           <SelectionProcess
@@ -177,7 +241,7 @@ export default function NewJNF(steps = 1) {
             Reset
           </Button>
           <Button onClick={handleComplete} sx={{ mt: 1, mr: 1 }}>
-            Submit
+            Preview
           </Button>
         </Paper>
       )}
