@@ -8,12 +8,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import BasicTimeline from './timeline';
 import MiniSpinner from '../../../components/common/MiniSpinner';
-import { JNF_FORM_DATA } from '../../../store/DATA';
 import { ViewElement, Heading, SubHeading, EligibleBranchBox } from './JNFformField';
 import * as api from '../../../api';
 import showToast from '../../../utils/showToastNotification';
 import { ERROR } from '../../../store/types';
-import { skillBased, typeOfTest, otherQualificationRounds } from '../JNFs/data';
+import { typeOfTest, otherQualificationRounds } from '../JNFs/data';
 
 const ViewJNF = () => {
   const { id } = useParams();
@@ -135,12 +134,14 @@ const ViewJNF = () => {
                     />
                   );
                 })}
-              <EligibleBranchBox
-                heading="Skill Based Hiring"
-                subHeading=" Students with certified technical expertise in the following skills (from Coursera, Udemy etc.)"
-                allBranch={skillBased}
-                eligibleBranch={JNF_FORM_DATA['eligible-courses']['skill-based']}
-              />
+              {jnf.skillsRequired && (
+                <EligibleBranchBox
+                  heading="Skill Based Hiring"
+                  subHeading=" Students with certified technical expertise in the following skills (from Coursera, Udemy etc.)"
+                  allBranch={jnf.skillsRequired}
+                  eligibleBranch={jnf.skillsRequired}
+                />
+              )}
             </Paper>
             <Paper id="6" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
               <Heading title="SELECTION PROCEDURE" />
@@ -189,7 +190,7 @@ const ViewJNF = () => {
                   })}
                 </Box>
               </Box>
-              <ViewElement title="Total number of rounds" body={JNF_FORM_DATA['selection-procedure'].totalRound} />
+              <ViewElement title="Total number of rounds" body={jnf.totalRounds} />
               <ViewElement
                 title="Number of offers available for IIT(ISM) students (Range would be sufficient)"
                 body={jnf.offerRange ? jnf.offerRange : ''}
