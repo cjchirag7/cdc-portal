@@ -124,7 +124,7 @@ module.exports = router;
  *               offerRange:
  *                 type: string
  *               stipend:
- *                 type: number
+ *                 type: string
  *               isPPO:
  *                 type: boolean
  *               ctcDetails:
@@ -171,7 +171,7 @@ module.exports = router;
  *              otherRound:
  *              - GD
  *              totalRounds: '3'
- *              stipend: '2'
+ *              stipend: '2 LPA'
  *              isPPO: 'true'
  *              ctcDetails: Lorem ipsum dolor sit amet
  *              createdBy: 6210f93623d75359239b903e
@@ -380,7 +380,7 @@ module.exports = router;
  *               offerRange:
  *                 type: string
  *               stipend:
- *                 type: number
+ *                 type: string
  *               isPPO:
  *                 type: boolean
  *               ctcDetails:

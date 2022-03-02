@@ -85,7 +85,7 @@ const infSchema = mongoose.Schema(
       type: String,
     },
     stipend: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
