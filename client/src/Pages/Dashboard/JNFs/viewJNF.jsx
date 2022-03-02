@@ -101,7 +101,7 @@ const ViewJNF = () => {
                 )}
                 <ViewElement title="Email Address" body={jnf.primaryContact.email} email />
                 {jnf.primaryContact.phone && <ViewElement title="Mobile Number" body={jnf.primaryContact.phone} />}
-                {jnf.secondaryContact && (
+                {!!jnf.secondaryContact.length && (
                   <>
                     <SubHeading title="Secondary Contact (if any) -" />
                     {jnf.secondaryContact.name && <ViewElement title="Name" body={jnf.secondaryContact.name} />}
@@ -160,12 +160,11 @@ const ViewJNF = () => {
                 </Typography>
                 <Box sx={{ width: '60%' }}>
                   {typeOfTest.map((type) => {
-                    const checked = jnf.testType.includes(type);
+                    const checked = jnf.testType === type;
                     return (
                       <FormControlLabel
                         key={type}
-                        control={<Checkbox disabled />}
-                        defaultChecked={checked}
+                        control={<Checkbox disabled defaultChecked={checked} />}
                         label={type}
                       />
                     );
@@ -182,8 +181,7 @@ const ViewJNF = () => {
                     return (
                       <FormControlLabel
                         key={type}
-                        control={<Checkbox disabled />}
-                        defaultChecked={checked}
+                        control={<Checkbox disabled defaultChecked={checked} />}
                         label={type}
                       />
                     );
