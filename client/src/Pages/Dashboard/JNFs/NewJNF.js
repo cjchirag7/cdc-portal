@@ -160,91 +160,93 @@ export default function NewJNF(steps = 1) {
   }, []);
 
   return (
-    <Box sx={{ maxWidth: 600, m: 'auto' }}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        <Step key={1}>
-          <POCDetails
-            firstStep={true}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            setPocDetail={setPocDetail}
-            {...pocDetail}
-          />
-        </Step>
-        <Step key={2}>
-          <CompanyDetails
-            firstStep={false}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            setCompanyDetail={setCompanyDetail}
-            {...companyDetail}
-          />
-        </Step>
-        <Step key={3}>
-          <JobProfile
-            firstStep={false}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            designation={jobProfile.designation}
-            description={jobProfile.description}
-            place={jobProfile.place}
-            setJobProfile={setJobProfile}
-          />
-        </Step>
-        <Step key={4}>
-          {!branchLoading && (
-            <EligibleBranches
+    <Box sx={{ maxWidth: 800, m: 'auto' }}>
+      <Paper sx={{ px: '100px', py: '20px' }}>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          <Step key={1}>
+            <POCDetails
+              firstStep={true}
+              lastStep={false}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              setPocDetail={setPocDetail}
+              {...pocDetail}
+            />
+          </Step>
+          <Step key={2}>
+            <CompanyDetails
               firstStep={false}
               lastStep={false}
               handleNext={handleNext}
               handleBack={handleBack}
-              pEligibility={eligibleObj.eligibility}
-              setElibigleObj={setElibigleObj}
-              pBtech={data.btech}
-              pDualDegree={data['dual-degree-integrated-mtech']}
-              pMsc={data.msc}
-              pMscTech={data['msc-tech']}
-              pPhd={data.phd}
-              pMtech={data.mtech}
-              pMba={data.mba}
+              setCompanyDetail={setCompanyDetail}
+              {...companyDetail}
             />
-          )}
-        </Step>
-        <Step key={5}>
-          <SelectionProcess
-            firstStep={false}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            {...selectionProcess}
-            setSelectionProcess={setSelectionProcess}
-          />
-        </Step>
-        <Step key={6}>
-          <CTCDetails
-            firstStep={false}
-            lastStep={false}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            {...ctcDetail}
-            setCTCDetail={setCTCDetail}
-          />
-        </Step>
-      </Stepper>
-      {activeStep === 6 && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-          <Button onClick={handleComplete} sx={{ mt: 1, mr: 1 }}>
-            Preview
-          </Button>
-        </Paper>
-      )}
+          </Step>
+          <Step key={3}>
+            <JobProfile
+              firstStep={false}
+              lastStep={false}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              designation={jobProfile.designation}
+              description={jobProfile.description}
+              place={jobProfile.place}
+              setJobProfile={setJobProfile}
+            />
+          </Step>
+          <Step key={4}>
+            {!branchLoading && (
+              <EligibleBranches
+                firstStep={false}
+                lastStep={false}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                pEligibility={eligibleObj.eligibility}
+                setElibigleObj={setElibigleObj}
+                pBtech={data.btech}
+                pDualDegree={data['dual-degree-integrated-mtech']}
+                pMsc={data.msc}
+                pMscTech={data['msc-tech']}
+                pPhd={data.phd}
+                pMtech={data.mtech}
+                pMba={data.mba}
+              />
+            )}
+          </Step>
+          <Step key={5}>
+            <SelectionProcess
+              firstStep={false}
+              lastStep={false}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              {...selectionProcess}
+              setSelectionProcess={setSelectionProcess}
+            />
+          </Step>
+          <Step key={6}>
+            <CTCDetails
+              firstStep={false}
+              lastStep={false}
+              handleNext={handleNext}
+              handleBack={handleBack}
+              {...ctcDetail}
+              setCTCDetail={setCTCDetail}
+            />
+          </Step>
+        </Stepper>
+        {activeStep === 6 && (
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+              Reset
+            </Button>
+            <Button onClick={handleComplete} sx={{ mt: 1, mr: 1 }}>
+              Preview
+            </Button>
+          </Paper>
+        )}
+      </Paper>
     </Box>
   );
 }

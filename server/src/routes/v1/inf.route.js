@@ -1,38 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const jnfValidation = require('../../validations/jnf.validation');
-const jnfController = require('../../controllers/jnf.controller');
+const infValidation = require('../../validations/inf.validation');
+const infController = require('../../controllers/inf.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageJnfs'), validate(jnfValidation.createJnf), jnfController.createJnf)
-  .get(auth('getJnfs'), validate(jnfValidation.getJnfs), jnfController.getJnfs);
+  .post(auth('manageInfs'), validate(infValidation.createInf), infController.createInf)
+  .get(auth('getInfs'), validate(infValidation.getInfs), infController.getInfs);
 
 router
-  .route('/:jnfId')
-  .get(auth('getJnfs'), validate(jnfValidation.getJnf), jnfController.getJnf)
-  .patch(auth('manageJnfs'), validate(jnfValidation.updateJnf), jnfController.updateJnf)
-  .delete(auth('getJnfs'), validate(jnfValidation.deleteJnf), jnfController.deleteJnf);
+  .route('/:infId')
+  .get(auth('getInfs'), validate(infValidation.getInf), infController.getInf)
+  .patch(auth('manageInfs'), validate(infValidation.updateInf), infController.updateInf)
+  .delete(auth('getInfs'), validate(infValidation.deleteInf), infController.deleteInf);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Jnfs
- *   description: Jnf management and retrieval
+ *   name: Infs
+ *   description: Inf management and retrieval
  */
 
 /**
  * @swagger
- * /jnfs:
+ * /infs:
  *   post:
- *     summary: Only users can create a jnf
- *     description: Only users can create jnfs.
- *     tags: [Jnfs]
+ *     summary: Only users can create an inf
+ *     description: Only users can create infs.
+ *     tags: [Infs]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -51,13 +51,13 @@ module.exports = router;
  *                 - category
  *               - jobDesignation
  *               - jobDesc
- *               - postingPlace
+ *               - mode
  *               - branches
  *               - eligCriteria
  *               - testType
  *               - otherRound
- *               - ctc
- *               - ctcBreakup
+ *               - stipend
+ *               - isPPO
  *               - gradYear
  *             properties:
  *               id:
@@ -100,8 +100,12 @@ module.exports = router;
  *                 type: string
  *               jobDesc:
  *                 type: string
+ *               mode:
+ *                 type: string
+ *                 enum: [physical,virtual]
  *               postingPlace:
  *                 type: string
+ *                 description: required only when mode is physical
  *               branches:
  *                 - branch:
  *                     type: string
@@ -119,10 +123,13 @@ module.exports = router;
  *                 type: number
  *               offerRange:
  *                 type: string
- *               ctc:
+ *               stipend:
  *                 type: number
- *               ctcBreakup:
+ *               isPPO:
+ *                 type: boolean
+ *               ctcDetails:
  *                 type: string
+ *                 description: required only when isPPO is true
  *               bondDetail:
  *                 type: string
  *               uploadedDocs:
@@ -131,6 +138,12 @@ module.exports = router;
  *                 type: string
  *               gradYear:
  *                 type: number
+ *               is2m:
+ *                 type: boolean
+ *               is6mDual:
+ *                 type: boolean
+ *               is6mMba:
+ *                 type: boolean
  *             example:
  *              primaryContact:
  *                name: lorem
@@ -145,6 +158,7 @@ module.exports = router;
  *                category: Software / IT
  *              jobDesignation: SDE
  *              jobDesc: Lorem ipsum dolor sit amet consectetur adipisicing elit.     Expedita, consequuntur.
+ *              mode: physical
  *              postingPlace: Delhi
  *              branches:
  *              - branch: 621455620b0f1e2418e49c2e
@@ -157,10 +171,12 @@ module.exports = router;
  *              otherRound:
  *              - GD
  *              totalRounds: '3'
- *              ctc: '25'
- *              ctcBreakup: Lorem ipsum dolor sit amet
+ *              stipend: '2'
+ *              isPPO: 'true'
+ *              ctcDetails: Lorem ipsum dolor sit amet
  *              createdBy: 6210f93623d75359239b903e
  *              gradYear: '2023'
+ *              is2m: 'true'
  *
  *     responses:
  *       "201":
@@ -168,16 +184,16 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Jnf'
+ *                $ref: '#/components/schemas/Inf'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all jnfs
- *     description: Admins can retrieve all jnfs while users can retrieve only their jnfs.
- *     tags: [Jnfs]
+ *     summary: Get all infs
+ *     description: Admins can retrieve all infs while users can retrieve only their infs.
+ *     tags: [Infs]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -186,6 +202,21 @@ module.exports = router;
  *         schema:
  *           type: ObjectId
  *         description: User ID
+ *       - in: query
+ *         name: is2m
+ *         schema:
+ *           type: boolean
+ *         description: whether 2 month intern offer
+ *       - in: query
+ *         name: is6mDual
+ *         schema:
+ *           type: boolean
+ *         description: whether 6 month intern offer for dual degree/int. m-tech
+ *       - in: query
+ *         name: is6mMba
+ *         schema:
+ *           type: boolean
+ *         description: whether 6 month intern offer for m-tech/mba
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -197,7 +228,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of jnfs (default 10)
+ *         description: Maximum number of infs (default 10)
  *       - in: query
  *         name: page
  *         schema:
@@ -216,7 +247,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/summarisedJnf'
+ *                     $ref: '#/components/schemas/summarisedInf'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -237,11 +268,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /jnfs/{id}:
+ * /infs/{id}:
  *   get:
- *     summary: Get a jnf
- *     description: Both admins and users can get a particular jnf by its id
- *     tags: [Jnfs]
+ *     summary: Get an inf
+ *     description: Both admins and users can get a particular inf by its id
+ *     tags: [Infs]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -250,14 +281,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Jnf id
+ *         description: Inf id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Jnf'
+ *                $ref: '#/components/schemas/Inf'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -266,9 +297,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a jnf
- *     description: Only users can update the jnfs created by them.
- *     tags: [Jnfs]
+ *     summary: Update a inf
+ *     description: Only users can update the infs created by them.
+ *     tags: [Infs]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -277,7 +308,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Jnf id
+ *         description: Inf id
  *     requestBody:
  *       required: true
  *       content:
@@ -325,13 +356,17 @@ module.exports = router;
  *                 type: string
  *               jobDesc:
  *                 type: string
+ *               mode:
+ *                 type: string
+ *                 enum: [physical,virtual]
  *               postingPlace:
  *                 type: string
+ *                 description: required only when mode is physical
  *               branches:
  *                 - branch:
  *                     type: string
  *               skillsRequired:
- *                 type: string
+ *                 - type: string
  *               eligCriteria:
  *                 type: string
  *               resume:
@@ -344,10 +379,13 @@ module.exports = router;
  *                 type: number
  *               offerRange:
  *                 type: string
- *               ctc:
+ *               stipend:
  *                 type: number
- *               ctcBreakup:
+ *               isPPO:
+ *                 type: boolean
+ *               ctcDetails:
  *                 type: string
+ *                 description: required only when isPPO is true
  *               bondDetail:
  *                 type: string
  *               uploadedDocs:
@@ -356,6 +394,12 @@ module.exports = router;
  *                 type: string
  *               gradYear:
  *                 type: number
+ *               is2m:
+ *                 type: boolean
+ *               is6mDual:
+ *                 type: boolean
+ *               is6mMba:
+ *                 type: boolean
  *             example:
  *               primaryContact:
  *                 name: lorem
@@ -368,7 +412,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Jnf'
+ *                $ref: '#/components/schemas/Inf'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -377,9 +421,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a jnf
- *     description: Only users can delete the jnfs created by them.
- *     tags: [Jnfs]
+ *     summary: Delete an inf
+ *     description: Only users can delete the infs created by them.
+ *     tags: [Infs]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -388,7 +432,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Jnf id
+ *         description: Inf id
  *     responses:
  *       "204":
  *         description: No content

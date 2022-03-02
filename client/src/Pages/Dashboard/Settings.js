@@ -146,7 +146,17 @@ const Settings = ({ placement, intern2, intern6 }) => {
 
   const CourseCard = ({ courseData }) => {
     return (
-      <Card variant="outlined" sx={{ margin: '5px', width: '250px', boxShadow: 3 }}>
+      <Card
+        variant="outlined"
+        sx={{
+          margin: '5px',
+          width: '250px',
+          boxShadow: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {courseData.duration} Years
@@ -181,7 +191,17 @@ const Settings = ({ placement, intern2, intern6 }) => {
 
   const BranchCard = ({ branchData }) => {
     return (
-      <Card variant="outlined" sx={{ margin: '5px', width: '250px', boxShadow: 3 }}>
+      <Card
+        variant="outlined"
+        sx={{
+          margin: '5px',
+          width: '250px',
+          boxShadow: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <CardContent>
           <Typography variant="h5" component="div">
             {branchData.name}
@@ -337,7 +357,7 @@ const Settings = ({ placement, intern2, intern6 }) => {
       </Box>
       <Box sx={{ margin: '20px' }}>
         <CourseForm />
-        <Container sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+        <Container sx={{ display: 'flex', justifyContent: 'space-between', mb: '10px' }} disableGutters>
           <Typography variant="h5" gutterBottom>
             Courses
           </Typography>
@@ -353,7 +373,7 @@ const Settings = ({ placement, intern2, intern6 }) => {
       </Box>
       <Box sx={{ margin: '20px' }}>
         <BranchForm />
-        <Container sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+        <Container sx={{ display: 'flex', justifyContent: 'space-between', mb: '10px' }} disableGutters>
           <Typography variant="h5" gutterBottom>
             Branches
           </Typography>

@@ -49,7 +49,7 @@ function EditUserDialog(props) {
     if (errorList.length < 1) {
       try {
         const newDataE = { ...dataE };
-        const { data } = await api.editUser(newDataE, idEditUser);
+        const { data } = await api.editUser({ name: newDataE.name, email: newDataE.email }, idEditUser);
         const updatedUsersData = [...usersData];
         updatedUsersData[colIdEditUser] = data;
         setUsersData([...updatedUsersData]);

@@ -89,6 +89,7 @@ export default function JNFList() {
     try {
       await api.deleteJNF(jnfId);
       showToast(SUCCESS, 'JNF deleted successfully');
+      window.location.reload();
     } catch (e) {
       const message = (e.response && e?.response?.data?.message) || 'Unable to delete JNF!';
       showToast(ERROR, message);
@@ -227,7 +228,7 @@ export default function JNFList() {
                         aria-describedby="Download PDF"
                         BackdropProps={{ style: { backgroundColor: 'rgba(255,255,255,0.2)', boxShadow: 'none' } }}
                       >
-                        <DialogTitle id="alert-dialog-title"> Download PDF </DialogTitle>
+                        <DialogTitle id="alert-dialog-title"> Download Job Notification Form PDF </DialogTitle>
                         <DialogActions>
                           <PDFDownloadLink
                             document={<JNF_PDF id={jnf.id} fileName="Form" />}

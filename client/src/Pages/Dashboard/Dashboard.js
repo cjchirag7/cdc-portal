@@ -29,6 +29,7 @@ import NewJNF from './JNFs/NewJNF';
 import INFList from './INFs';
 import MyINFs from './INFs/myINF';
 import ViewJNF from './JNFs/viewJNF';
+import ViewINF from './INFs/viewINF';
 import Settings from './Settings';
 import PreviewJNF from './JNFs/PreviewJNF';
 
@@ -96,6 +97,11 @@ export default function Dashboard() {
         {isAdmin && (
           <ListItem button onClick={() => history.push('/dashboard/settings')}>
             <ListItemText primary="SETTINGS" />
+          </ListItem>
+        )}
+        {isUser && (
+          <ListItem button onClick={() => history.push('/dashboard/new-inf')}>
+            <ListItemText primary="Create INF" />
           </ListItem>
         )}
       </List>
@@ -197,6 +203,16 @@ export default function Dashboard() {
                 Create JNF
               </Button>
             )}
+            {isUser && (
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block', ml: '25px', fontSize: '18px' }}
+                onClick={() => {
+                  history.push('/dashboard/new-inf');
+                }}
+              >
+                Create INF
+              </Button>
+            )}
           </Box>
           <IconButton
             size="large"
@@ -261,9 +277,10 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/jnf/:id" exact component={ViewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
-          <RoleBasedRoute path="/dashboard/jnf/:id" exact component={ViewJNF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/inf/:id" exact component={ViewINF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/final-preview" exact component={PreviewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
