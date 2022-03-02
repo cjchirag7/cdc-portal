@@ -6,32 +6,32 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import BasicTimeline from './timeline';
+import BasicTimeline from '../JNFs/timeline';
 import MiniSpinner from '../../../components/common/MiniSpinner';
-import { ViewElement, Heading, SubHeading, EligibleBranchBox } from './JNFformField';
+import { ViewElement, Heading, SubHeading, EligibleBranchBox } from '../JNFs/JNFformField';
 import * as api from '../../../api';
 import showToast from '../../../utils/showToastNotification';
 import { ERROR } from '../../../store/types';
 import { typeOfTest, otherQualificationRounds } from '../JNFs/data';
 
-const ViewJNF = () => {
+const ViewINF = () => {
   const { id } = useParams();
-  const [jnf, setJnf] = React.useState({});
-  const [jnfLoading, setJnfLoading] = React.useState(true);
+  const [inf, setInf] = React.useState({});
+  const [infLoading, setInfLoading] = React.useState(true);
   const [courses, setCourses] = React.useState([]);
   const [coursesLoading, setCoursesLoading] = React.useState(true);
 
-  // Get JNF data from id in query parameter
+  // Get INF data from id in query parameter
   React.useEffect(async () => {
     try {
-      const { data } = await api.getJNF(id);
+      const { data } = await api.getINF(id);
       data.branches = data.branches.map((obj) => obj.branch);
-      setJnf(data);
+      setInf(data);
     } catch (e) {
       const message = (e.response && e?.response?.data?.message) || 'Unable to fetch data!';
       showToast(ERROR, message);
     } finally {
-      setJnfLoading(false);
+      setInfLoading(false);
     }
   }, []);
 
@@ -57,8 +57,8 @@ const ViewJNF = () => {
 
   return (
     <>
-      {jnfLoading && <MiniSpinner />}
-      {!jnfLoading && (
+      {infLoading && <MiniSpinner />}
+      {!infLoading && (
         <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
           <Box
             sx={{
@@ -71,48 +71,88 @@ const ViewJNF = () => {
             <BasicTimeline />
           </Box>
           <Box>
-            {jnf.company && (
+            {inf.company && (
               <Paper id="1" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
                 <Heading title="COMPANY OVERVIEW" />
-                <ViewElement title="Name" body={jnf.company.name} />
-                <ViewElement title="Website" body={jnf.company.website} link />
-                <ViewElement title="Category" body={jnf.company.category} />
+                <ViewElement title="Name" body={inf.company.name} />
+                <ViewElement title="Website" body={inf.company.website} link />
+                <ViewElement title="Category" body={inf.company.category} />
               </Paper>
             )}
             <Paper id="2" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
-              <Heading title="JOB DETAILS" />
-              <ViewElement title="Designation" body={jnf.jobDesignation} />
-              <ViewElement title="Place of posting" body={jnf.postingPlace} />
-              <ViewElement title="Job description" body={jnf.jobDesc} />
+              <Heading title="INTERNSHIP DETAILS" />
+              <Box sx={{ display: 'flex', pt: '5px', pb: '5px', alignItems: 'center' }}>
+                <Typography sx={{ width: '40%', textAlign: 'right', pr: '5%', fontWeight: '700' }}>
+                  2 Months :
+                </Typography>
+                <Box sx={{ width: '60%', display: 'flex' }}>
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={inf.is2m} />} label="Yes" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={!inf.is2m} />} label="No" />
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', pt: '5px', pb: '5px', alignItems: 'center' }}>
+                <Typography sx={{ width: '40%', textAlign: 'right', pr: '5%', fontWeight: '700' }}>
+                  6 Months Dual Degree :
+                </Typography>
+                <Box sx={{ width: '60%', display: 'flex' }}>
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={inf.is6mDual} />} label="Yes" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={!inf.is6mDual} />} label="No" />
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', pt: '5px', pb: '5px', alignItems: 'center' }}>
+                <Typography sx={{ width: '40%', textAlign: 'right', pr: '5%', fontWeight: '700' }}>
+                  6 Months MBA :
+                </Typography>
+                <Box sx={{ width: '60%', display: 'flex' }}>
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={inf.is6mMba} />} label="Yes" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={!inf.is6mMba} />} label="No" />
+                </Box>
+              </Box>
+              <ViewElement title="Designation" body={inf.jobDesignation} />
+              <ViewElement title="Job description" body={inf.jobDesc} />
+              <ViewElement title="Mode of Internship" body={inf.mode} />
+              <ViewElement
+                title="Place of posting"
+                body={inf.mode == 'physical' ? inf.postingPlace : 'Not Applicable'}
+              />
             </Paper>
             <Paper id="3" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
               <Heading title="SALARY DETAILS" />
-              <ViewElement title="CTC (in LPA)" body={jnf.ctc} />
-              <ViewElement title="CTC Breakup" body={jnf.ctcBreakup} />
-              {jnf.bondDetail && <ViewElement title="Bond Details (If any)" body={jnf.bondDetail} />}
+              <ViewElement title="Stipend" body={inf.stipend} />
+              <Box sx={{ display: 'flex', pt: '5px', pb: '5px', alignItems: 'center' }}>
+                <Typography sx={{ width: '40%', textAlign: 'right', pr: '5%', fontWeight: '700' }}>
+                  Provision for PPO :
+                </Typography>
+                <Box sx={{ width: '60%', display: 'flex' }}>
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={inf.isPPO} />} label="Yes" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={!inf.isPPO} />} label="No" />
+                </Box>
+              </Box>
+              <ViewElement title="CTC Details" body={inf.isPPO ? inf.ctcDetails : 'Not Applicable'} />
+              <ViewElement title="Bond Details (if any)" body={inf.isPPO ? inf.bondDetail : 'Not Applicable'} />
             </Paper>
-            {jnf.primaryContact && (
+            {inf.primaryContact && (
               <Paper id="4" elevation={3} sx={{ pl: '5%', pr: '5%', mb: '1em' }}>
                 <Heading title="CONTACT PERSONNEL DETAILS" />
                 <SubHeading title="Primary Contact -" />
-                <ViewElement title="Name" body={jnf.primaryContact.name} />
-                {jnf.primaryContact.designation && (
-                  <ViewElement title="Designation" body={jnf.primaryContact.designation} />
+                <ViewElement title="Name" body={inf.primaryContact.name} />
+                {inf.primaryContact.designation && (
+                  <ViewElement title="Designation" body={inf.primaryContact.designation} />
                 )}
-                <ViewElement title="Email Address" body={jnf.primaryContact.email} email />
-                {jnf.primaryContact.phone && <ViewElement title="Mobile Number" body={jnf.primaryContact.phone} />}
-                {jnf.secondaryContact && (
+                <ViewElement title="Email Address" body={inf.primaryContact.email} email />
+                {inf.primaryContact.phone && <ViewElement title="Mobile Number" body={inf.primaryContact.phone} />}
+                {inf.secondaryContact && (
                   <>
                     <SubHeading title="Secondary Contact (if any) -" />
-                    {jnf.secondaryContact.name && <ViewElement title="Name" body={jnf.secondaryContact.name} />}
-                    {jnf.secondaryContact.designation && (
-                      <ViewElement title="Designation" body={jnf.secondaryContact.designation} />
+                    {inf.secondaryContact.name && <ViewElement title="Name" body={inf.secondaryContact.name} />}
+                    {inf.secondaryContact.designation && (
+                      <ViewElement title="Designation" body={inf.secondaryContact.designation} />
                     )}
-                    {jnf.secondaryContact.email && (
-                      <ViewElement title="Email Address" body={jnf.secondaryContact.email} email />
+                    {inf.secondaryContact.email && (
+                      <ViewElement title="Email Address" body={inf.secondaryContact.email} email />
                     )}
-                    {jnf.secondaryContact.phone && (
-                      <ViewElement title="Mobile Number" body={jnf.secondaryContact.phone} />
+                    {inf.secondaryContact.phone && (
+                      <ViewElement title="Mobile Number" body={inf.secondaryContact.phone} />
                     )}
                   </>
                 )}
@@ -130,11 +170,11 @@ const ViewJNF = () => {
                       heading={`${course.duration}-Year ${course.name} Programs`}
                       subHeading={`Admitted through ${course.adm_mode}`}
                       allBranch={course.branches}
-                      eligibleBranch={jnf.branches}
+                      eligibleBranch={inf.branches}
                     />
                   );
                 })}
-              {jnf.skillsRequired && (
+              {inf.skillsRequired && (
                 <Box>
                   <Typography sx={{ color: '#8A8888', fontStyle: 'italic', fontWeight: '600', pb: '5px' }}>
                     Skill Based Hiring
@@ -142,7 +182,7 @@ const ViewJNF = () => {
                   <Typography varient="h6" sx={{ fontStyle: 'italic', pb: '10px' }}>
                     Students with certified technical expertise in the following skills (from Coursera, Udemy etc.) -
                   </Typography>
-                  {jnf.skillsRequired?.map((skill) => (
+                  {inf.skillsRequired?.map((skill) => (
                     <Typography sx={{ width: '60%', pb: '5px', pt: '5px', textAlign: 'right' }} key={skill}>
                       {skill}
                     </Typography>
@@ -157,8 +197,8 @@ const ViewJNF = () => {
                   Resume Shortlisting :
                 </Typography>
                 <Box sx={{ width: '60%', display: 'flex' }}>
-                  <FormControlLabel control={<Checkbox disabled defaultChecked={jnf.resume} />} label="Yes" />
-                  <FormControlLabel control={<Checkbox disabled defaultChecked={!jnf.resume} />} label="No" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={inf.resume} />} label="Yes" />
+                  <FormControlLabel control={<Checkbox disabled defaultChecked={!inf.resume} />} label="No" />
                 </Box>
               </Box>
               <Box sx={{ display: 'flex' }}>
@@ -167,7 +207,7 @@ const ViewJNF = () => {
                 </Typography>
                 <Box sx={{ width: '60%' }}>
                   {typeOfTest.map((type) => {
-                    const checked = jnf.testType.includes(type);
+                    const checked = inf.testType.includes(type);
                     return (
                       <FormControlLabel
                         key={type}
@@ -185,7 +225,7 @@ const ViewJNF = () => {
                 </Typography>
                 <Box sx={{ width: '60%' }}>
                   {otherQualificationRounds.map((type) => {
-                    const checked = jnf.otherRound.includes(type);
+                    const checked = inf.otherRound.includes(type);
                     return (
                       <FormControlLabel
                         key={type}
@@ -197,12 +237,12 @@ const ViewJNF = () => {
                   })}
                 </Box>
               </Box>
-              <ViewElement title="Total number of rounds" body={jnf.totalRounds} />
+              <ViewElement title="Total number of rounds" body={inf.totalRounds} />
               <ViewElement
                 title="Number of offers available for IIT(ISM) students (Range would be sufficient)"
-                body={jnf.offerRange ? jnf.offerRange : ''}
+                body={inf.offerRange ? inf.offerRange : ''}
               />
-              <ViewElement title="Eligibility Criteria (if any)" body={jnf.eligCriteria ? jnf.eligCriteria : ''} />
+              <ViewElement title="Eligibility Criteria (if any)" body={inf.eligCriteria ? inf.eligCriteria : ''} />
             </Paper>
           </Box>
         </Container>
@@ -211,4 +251,4 @@ const ViewJNF = () => {
   );
 };
 
-export default ViewJNF;
+export default ViewINF;

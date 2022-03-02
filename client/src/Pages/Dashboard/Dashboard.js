@@ -30,6 +30,8 @@ import INFList from './INFs';
 import MyINFs from './INFs/myINF';
 import ViewJNF from './JNFs/viewJNF';
 import JNF_PDF from './JNFs/jnf-pdf/jnfPDF';
+import ViewINF from './INFs/viewINF';
+import INF_PDF from './INFs/inf-pdf/infPDF';
 import Settings from './Settings';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -271,10 +273,12 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/my-jnfs" exact component={MyJNFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/new-jnf" exact component={NewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/jnfs" exact component={JNFList} userRole={ADMIN} />
-          <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
-          <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/jnf/:id" exact component={ViewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/preview-jnf/:id" exact component={JNF_PDF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
+          <RoleBasedRoute path="/dashboard/inf/:id" exact component={ViewINF} userRole={USER} />
+          <RoleBasedRoute path="/dashboard/preview-inf/:id" exact component={INF_PDF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />
           <Redirect from="/dashboard" to="/dashboard/users" />

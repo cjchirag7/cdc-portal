@@ -46,3 +46,8 @@ export const getJNFs = () => API.get('/jnfs');
 export const getJNF = (id) => API.get(`/jnfs/${id}`);
 export const createJNF = (jnf) => API.post('/jnfs', jnf);
 export const deleteJNF = (id) => API.get(`/jnfs/${id}`);
+
+export const getINFs = () => API.get('/infs');
+export const getINF = (id) => API.get(`/infs/${id}`);
+export const createINF = (inf) => API.post('/infs', inf);
+export const deleteINF = (id) => API.get(`/infs/${id}`);
