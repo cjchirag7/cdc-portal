@@ -8,15 +8,15 @@ import {
   LabeledCheckbox,
   EligibleBranchBox,
   styles,
-} from './jnfPdfField';
+} from '../../JNFs/jnf-pdf/jnfPdfField';
 import MiniSpinner from '../../../../components/common/MiniSpinner';
 import showToast from '../../../../utils/showToastNotification';
 import { ERROR } from '../../../../store/types';
 import * as api from '../../../../api';
-import { typeOfTest, otherQualificationRounds } from '../data';
-import { HeadingInfo, SubHeading } from '../JNFformField';
+import { typeOfTest, otherQualificationRounds } from '../../JNFs/data';
+import { HeadingInfo, SubHeading } from '../../JNFs/JNFformField';
 
-const MyDocument = ({ jnf, courses, coursesLoading }) => {
+const MyDocument = ({ inf, courses, coursesLoading }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -24,45 +24,45 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
           <Text style={styles.PDFHeading}>JOB NOTIFICATION FORM</Text>
           <View>
             <SectionHeading title="Company Overview" />
-            <ViewElement title="Name" body={jnf.company?.name} />
+            <ViewElement title="Name" body={inf.company?.name} />
             <View style={styles.sectionField}>
               <Text style={styles.sectionLeft}>Website: </Text>
-              <Link src={jnf.company?.website} style={styles.sectionRight}>
-                {jnf.company?.website}
+              <Link src={inf.company?.website} style={styles.sectionRight}>
+                {inf.company?.website}
               </Link>
             </View>
-            <ViewElement title="Category" body={jnf.company?.category} />
+            <ViewElement title="Category" body={inf.company?.category} />
           </View>
           <View>
             <SectionHeading title="Job Details" />
-            <ViewElement title="Designation" body={jnf.jobDesignation} />
-            <ViewElement title="Place of posting" body={jnf.postingPlace} />
-            <ViewElement title="Job description" body={jnf.jobDesc} />
+            <ViewElement title="Designation" body={inf.jobDesignation} />
+            <ViewElement title="Place of posting" body={inf.postingPlace} />
+            <ViewElement title="Job description" body={inf.jobDesc} />
           </View>
           <View>
             <SectionHeading title="Salary Details" />
-            <ViewElement title="CTC (in LPA)" body={jnf.ctc} />
-            <ViewElement title="CTC Breakup" body={jnf.ctcBreakup} />
-            {jnf.bondDetail && <ViewElement title="Bond Details (If any)" body={jnf.bondDetail} />}
+            <ViewElement title="CTC (in LPA)" body={inf.ctc} />
+            <ViewElement title="CTC Breakup" body={inf.ctcBreakup} />
+            {inf.bondDetail && <ViewElement title="Bond Details (If any)" body={inf.bondDetail} />}
           </View>
           <View>
             <SectionHeading title="Contact person details" />
             <SectionSubHeading title="Primary Contact" />
-            <ViewElement title="Name" body={jnf.primaryContact?.name} />
-            {jnf.primaryContact?.designation && (
-              <ViewElement title="Designation" body={jnf.primaryContact?.designation} />
+            <ViewElement title="Name" body={inf.primaryContact?.name} />
+            {inf.primaryContact?.designation && (
+              <ViewElement title="Designation" body={inf.primaryContact?.designation} />
             )}
-            <ViewElement title="Email Address" body={jnf.primaryContact?.email} email />
-            {jnf.primaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.primaryContact?.phone} />}
+            <ViewElement title="Email Address" body={inf.primaryContact?.email} email />
+            {inf.primaryContact?.phone && <ViewElement title="Mobile Number" body={inf.primaryContact?.phone} />}
             <SectionSubHeading title="Secondary Contact (if any)" />
-            {jnf.secondaryContact?.name && <ViewElement title="Name" body={jnf.secondaryContact.name} />}
-            {jnf.secondaryContact?.designation && (
-              <ViewElement title="Designation" body={jnf.secondaryContact.designation} />
+            {inf.secondaryContact?.name && <ViewElement title="Name" body={inf.secondaryContact.name} />}
+            {inf.secondaryContact?.designation && (
+              <ViewElement title="Designation" body={inf.secondaryContact.designation} />
             )}
-            {jnf.secondaryContact?.email && (
-              <ViewElement title="Email Address" body={jnf.secondaryContact.email} email />
+            {inf.secondaryContact?.email && (
+              <ViewElement title="Email Address" body={inf.secondaryContact.email} email />
             )}
-            {jnf.secondaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.secondaryContact.phone} />}
+            {inf.secondaryContact?.phone && <ViewElement title="Mobile Number" body={inf.secondaryContact.phone} />}
           </View>
           <View>
             <SectionHeading title="Eligible courses & Disciplines" />
@@ -76,16 +76,18 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
                     heading={`${course.duration}-Year ${course.name} Programs`}
                     subHeading={`Admitted through ${course.adm_mode}`}
                     allBranch={course.branches}
-                    eligibleBranch={jnf.branches}
+                    eligibleBranch={inf.branches}
                   />
                 );
               })}
-            {jnf.skillsRequired && (
+            {inf.skillsRequired && (
               <View>
                 <SubHeading title="Skill Based Hiring" />
                 <HeadingInfo title="Students with certified technical expertise in the following skills (from Coursera, Udemy etc.)" />
-                {jnf.skillsRequired?.map((skill) => (
-                  <Text key={skill}>{skill}</Text>
+                {inf.skillsRequired?.map((skill) => (
+                  <Text style={styles.sectionRight} key={skill}>
+                    {skill}
+                  </Text>
                 ))}
               </View>
             )}
@@ -95,15 +97,15 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
             <View style={styles.sectionField}>
               <Text style={styles.sectionLeft}>Resume Shortlisting :</Text>
               <View style={styles.sectionRight}>
-                <LabeledCheckbox label="Yes" checked={jnf.resume} />
-                <LabeledCheckbox label="No" checked={!jnf.resume} />
+                <LabeledCheckbox label="Yes" checked={inf.resume} />
+                <LabeledCheckbox label="No" checked={!inf.resume} />
               </View>
             </View>
             <View style={styles.sectionField}>
               <Text style={styles.sectionLeft}>Type of test :</Text>
               <View style={styles.sectionRight}>
                 {typeOfTest.map((type) => {
-                  const checked = jnf.testType?.includes(type);
+                  const checked = inf.testType?.includes(type);
                   return <LabeledCheckbox key={type} label={type} checked={checked} />;
                 })}
               </View>
@@ -112,17 +114,17 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
               <Text style={styles.sectionLeft}>Total number of rounds :</Text>
               <View style={styles.sectionRight}>
                 {otherQualificationRounds.map((type) => {
-                  const checked = jnf.otherRound?.includes(type);
+                  const checked = inf.otherRound?.includes(type);
                   return <LabeledCheckbox key={type} label={type} checked={checked} />;
                 })}
               </View>
             </View>
-            <ViewElement title="Total number of rounds" body={jnf.totalRounds} />
+            <ViewElement title="Total number of rounds" body={inf.totalRounds} />
             <ViewElement
               title="Number of offers available for IIT(ISM) students (Range would be sufficient)"
-              body={jnf.offerRange ? jnf.offerRange : ''}
+              body={inf.offerRange ? inf.offerRange : ''}
             />
-            <ViewElement title="Eligibility Criteria (if any)" body={jnf.eligCriteria ? jnf.eligCriteria : ''} />
+            <ViewElement title="Eligibility Criteria (if any)" body={inf.eligCriteria ? inf.eligCriteria : ''} />
           </View>
         </View>
       </Page>
@@ -130,18 +132,18 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
   );
 };
 
-const JNF_PDF = () => {
+const INF_PDF = () => {
   const { id } = useParams();
-  const [jnf, setJnf] = React.useState({});
+  const [inf, setInf] = React.useState({});
   const [courses, setCourses] = React.useState([]);
   const [coursesLoading, setCoursesLoading] = React.useState(true);
 
-  // Get JNF data from id in query parameter
+  // Get INF data from id in query parameter
   React.useEffect(async () => {
     try {
-      const { data } = await api.getJNF(id);
+      const { data } = await api.getINF(id);
       data.branches = data.branches.map((obj) => obj.branch);
-      setJnf(data);
+      setInf(data);
     } catch (e) {
       const message = (e.response && e?.response?.data?.message) || 'Unable to fetch data!';
       showToast(ERROR, message);
@@ -171,9 +173,9 @@ const JNF_PDF = () => {
 
   return (
     <PDFViewer style={styles.pdf}>
-      <MyDocument id={id} jnf={jnf} courses={courses} coursesLoading={coursesLoading} />
+      <MyDocument id={id} inf={inf} courses={courses} coursesLoading={coursesLoading} />
     </PDFViewer>
   );
 };
 
-export default JNF_PDF;
+export default INF_PDF;
