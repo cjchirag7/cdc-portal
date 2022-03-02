@@ -230,6 +230,186 @@ components:
         createdBy: 6210f93623d75359239b903e
         gradYear: '2023'
 
+    Inf: 
+      type: object
+      properties:
+        id:
+          type: string
+        primaryContact:
+          id:
+            type: string
+          email:
+            type: string
+            format: email
+          name:
+            type: string
+          designation:
+            type: string
+          phone:
+            type: string
+        secondaryContact:
+          - id:
+              type: string
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+            designation:
+              type: string
+            phone:
+              type: string
+        company:
+          id:
+            type: string
+          name:
+            type: string
+          website:
+            type: string
+            format: uri          
+          category:
+            type: string
+        jobDesignation:
+          type: string
+        jobDesc:
+          type: string
+        mode:
+          type: string
+          enum: [physical,virtual]
+        postingPlace:
+          type: string
+        branches:
+          - branch: 
+              type: string
+        skillsRequired:
+          type: string
+        eligCriteria:
+          type: string
+        resume:
+          type: boolean
+        testType:
+          type: string
+        otherRound:
+          - type: string
+        totalRounds:
+          type: number
+        offerRange:
+          type: string
+        stipend:
+          type: number
+        isPPO:
+          type: boolean
+        ctcDetails:
+          type: string
+        bondDetail:
+          type: string
+        uploadedDocs:
+          type: string
+        createdBy:
+          type: string
+        gradYear:
+          type: number
+        is2m:
+          type: boolean
+        is6mDual:
+          type: boolean
+        is6mMba:
+          type: boolean
+      example: 
+        primaryContact:
+          name: lorem
+          email: example@gmail.com
+          designation: HR
+        secondaryContact:
+        - name: lorem
+          email: example@gmail.com
+        company:
+          name: Test Company
+          website: https://www.test-company.com
+          category: Software / IT
+        jobDesignation: SDE
+        jobDesc: Lorem ipsum dolor sit amet consectetur adipisicing elit.Expedita, consequuntur.
+        mode: physical
+        postingPlace: Delhi
+        branches:
+        - branch: 621455620b0f1e2418e49c2e
+        - branch: 62146dcf767f815e9484ac26
+        skillsRequired: 
+        - C,C++
+        eligCriteria: Lorem ipsum dolor sit amet consectetur adipisicing elit.Consequatur,
+          possimus.
+        resume: 'true'
+        testType: Technical
+        otherRound:
+        - GD
+        totalRounds: '3'
+        stipend: '2'
+        isPPO: 'true'
+        ctcDetails: Lorem ipsum dolor sit amet
+        createdBy: 6210f93623d75359239b903e
+        gradYear: '2023'
+        is2m: 'true'
+
+    summarisedInf: 
+      type: object
+      properties:
+        id:
+          type: string
+        primaryContact:
+          id:
+            type: string
+          email:
+            type: string
+            format: email
+          name:
+            type: string
+          designation:
+            type: string
+          phone:
+            type: string
+        company:
+          id:
+            type: string
+          name:
+            type: string
+          website:
+            type: string
+            format: uri          
+          category:
+            type: string
+        jobDesignation:
+          type: string
+        createdBy:
+          type: string
+        gradYear:
+          type: number
+      example: 
+        primaryContact:
+          name: lorem
+          email: example@gmail.com
+          designation: HR
+        company:
+          name: Test Company
+          website: https://www.test-company.com
+          category: Software / IT
+        jobDesignation: SDE
+        createdBy: 6210f93623d75359239b903e
+        gradYear: '2023'
+    
+    gradYear:
+      type: object
+      properties:
+        placement: 
+          type: number
+        inf2m: 
+          type: number
+        inf6m: 
+          type: number
+      example: 
+        placement: 2023
+        inf2m: 2024
+        inf6m: 2023
+
     Token:
       type: object
       properties:
