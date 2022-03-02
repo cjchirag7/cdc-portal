@@ -118,13 +118,13 @@ export default function SelectionProcess({
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox checked={formik.values.caseStudy} onChange={formik.handleChange} name="caseStudy" />
+                    <Checkbox checked={formik.values.caseStudy} onChange={formik.handleChange} name=" Case Study" />
                   }
                   label="Case Study"
                 />
                 <FormControlLabel
                   control={
-                    <Checkbox checked={formik.values.interview} onChange={formik.handleChange} name="interview" />
+                    <Checkbox checked={formik.values.interview} onChange={formik.handleChange} name="Interview" />
                   }
                   label="Interview"
                 />
