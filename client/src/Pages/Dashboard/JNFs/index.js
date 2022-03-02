@@ -13,15 +13,21 @@ import Tooltip from '@mui/material/Tooltip';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import IconButton from '@mui/material/IconButton';
 import MiniSpinner from '../../../components/common/MiniSpinner';
-// import EditIcon from '@mui/icons-material/Edit';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import { ERROR, SUCCESS } from '../../../store/types';
 import { getComparator, stableSort } from '../../../utils/tableSortFunctions';
 import showToast from '../../../utils/showToastNotification';
 import EnhancedTableHead from '../../../components/table/enhancedTableHead';
 import EnhancedTableToolbar from '../../../components/table/enhancedTableToolBar';
 import DialogComponent from '../../../components/common/Dialog';
+import Transition from '../../../components/common/Transition';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import Button from '@mui/material/Button';
+import JNF_PDF from './jnf-pdf/jnfPDF';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +59,7 @@ export default function JNFList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = React.useState(false);
+  const [downloadOpen, setDownloadOpen] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -94,10 +101,6 @@ export default function JNFList() {
     history.push(`/dashboard/jnf/${id}`);
   };
 
-  const previewJNF = (id) => {
-    history.push(`/dashboard/preview-jnf/${id}`);
-  };
-
   React.useEffect(async () => {
     try {
       const { data } = await api.getJNFs();
@@ -117,6 +120,14 @@ export default function JNFList() {
       setJNFsLoading(false);
     }
   }, []);
+
+  const handleDownloadOpen = () => {
+    setDownloadOpen(true);
+  };
+
+  const handleDownloadClose = () => {
+    setDownloadOpen(false);
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - jnfs.length) : 0;
@@ -147,22 +158,9 @@ export default function JNFList() {
       label: 'Created By',
     },
     {
-      id: 'view',
+      id: 'options',
       numeric: false,
       disablePadding: false,
-      label: 'View',
-    },
-    {
-      id: 'printPreview',
-      numeric: false,
-      disablePadding: false,
-      label: 'Print Preview',
-    },
-    {
-      id: 'delete',
-      numeric: false,
-      disablePadding: false,
-      label: 'Delete',
     },
   ];
 
@@ -199,15 +197,11 @@ export default function JNFList() {
                             <VisibilityIcon />
                           </IconButton>
                         </Tooltip>
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        <Tooltip title="Print Preview">
-                          <IconButton size="small" sx={{ ml: '5px', mb: '5px' }} onClick={() => previewJNF(jnf.id)}>
-                            <DocumentScannerIcon />
+                        <Tooltip title="Download PDF">
+                          <IconButton size="small" sx={{ ml: '5px', mb: '5px' }} onClick={() => handleDownloadOpen()}>
+                            <FileDownloadIcon />
                           </IconButton>
                         </Tooltip>
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
                         <Tooltip title="Delete">
                           <IconButton
                             size="small"
@@ -225,6 +219,42 @@ export default function JNFList() {
                         label="Delete"
                         title="Are you sure you want to delete this form ?"
                       />
+                      <Dialog
+                        open={downloadOpen}
+                        onClose={handleDownloadClose}
+                        TransitionComponent={Transition}
+                        aria-labelledby="Download"
+                        aria-describedby="Download PDF"
+                        BackdropProps={{ style: { backgroundColor: 'rgba(255,255,255,0.2)', boxShadow: 'none' } }}
+                      >
+                        <DialogTitle id="alert-dialog-title"> Download PDF </DialogTitle>
+                        <DialogActions>
+                          <PDFDownloadLink
+                            document={<JNF_PDF id={jnf.id} fileName="Form" />}
+                            style={{ textDecoration: 'none' }}
+                          >
+                            {({ loading }) =>
+                              loading ? (
+                                <Button variant="contained">Loading ... </Button>
+                              ) : (
+                                <Button variant="contained">Original</Button>
+                              )
+                            }
+                          </PDFDownloadLink>
+                          <PDFDownloadLink
+                            document={<JNF_PDF id={jnf.id} fileName="Form" sharable />}
+                            style={{ textDecoration: 'none' }}
+                          >
+                            {({ loading }) =>
+                              loading ? (
+                                <Button variant="contained">Loading ... </Button>
+                              ) : (
+                                <Button variant="contained">Student Sharable</Button>
+                              )
+                            }
+                          </PDFDownloadLink>
+                        </DialogActions>
+                      </Dialog>
                     </StyledTableRow>
                   );
                 })}

@@ -34,7 +34,6 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </StyledTableCell>
         ))}
-        <StyledTableCell />
       </StyledTableRow>
     </TableHead>
   );

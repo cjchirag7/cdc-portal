@@ -29,7 +29,6 @@ import NewJNF from './JNFs/NewJNF';
 import INFList from './INFs';
 import MyINFs from './INFs/myINF';
 import ViewJNF from './JNFs/viewJNF';
-import JNF_PDF from './JNFs/jnf-pdf/jnfPDF';
 import Settings from './Settings';
 import PreviewJNF from './JNFs/PreviewJNF';
 
@@ -265,7 +264,6 @@ export default function Dashboard() {
           <RoleBasedRoute path="/dashboard/my-infs" exact component={MyINFs} userRole={USER} />
           <RoleBasedRoute path="/dashboard/infs" exact component={INFList} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/jnf/:id" exact component={ViewJNF} userRole={USER} />
-          <RoleBasedRoute path="/dashboard/preview-jnf/:id" exact component={JNF_PDF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/settings" exact component={Settings} userRole={ADMIN} />
           <RoleBasedRoute path="/dashboard/final-preview" exact component={PreviewJNF} userRole={USER} />
           <RoleBasedRoute path="/dashboard/profile/change-password" exact component={ChangePassword} userRole={USER} />

@@ -1,6 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { PDFViewer, Page, Text, View, Document, Link } from '@react-pdf/renderer';
+import { Page, Text, View, Document, Link } from '@react-pdf/renderer';
 import {
   ViewElement,
   SectionHeading,
@@ -15,7 +14,7 @@ import { ERROR } from '../../../../store/types';
 import * as api from '../../../../api';
 import { typeOfTest, otherQualificationRounds } from '../data';
 
-const MyDocument = ({ jnf, courses, coursesLoading }) => {
+const MyDocument = ({ jnf, courses, coursesLoading, sharable }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -44,25 +43,27 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
             <ViewElement title="CTC Breakup" body={jnf.ctcBreakup} />
             {jnf.bondDetail && <ViewElement title="Bond Details (If any)" body={jnf.bondDetail} />}
           </View>
-          <View>
-            <SectionHeading title="Contact person details" />
-            <SectionSubHeading title="Primary Contact" />
-            <ViewElement title="Name" body={jnf.primaryContact?.name} />
-            {jnf.primaryContact?.designation && (
-              <ViewElement title="Designation" body={jnf.primaryContact?.designation} />
-            )}
-            <ViewElement title="Email Address" body={jnf.primaryContact?.email} email />
-            {jnf.primaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.primaryContact?.phone} />}
-            <SectionSubHeading title="Secondary Contact (if any)" />
-            {jnf.secondaryContact?.name && <ViewElement title="Name" body={jnf.secondaryContact.name} />}
-            {jnf.secondaryContact?.designation && (
-              <ViewElement title="Designation" body={jnf.secondaryContact.designation} />
-            )}
-            {jnf.secondaryContact?.email && (
-              <ViewElement title="Email Address" body={jnf.secondaryContact.email} email />
-            )}
-            {jnf.secondaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.secondaryContact.phone} />}
-          </View>
+          {!sharable && (
+            <View>
+              <SectionHeading title="Contact person details" />
+              <SectionSubHeading title="Primary Contact" />
+              <ViewElement title="Name" body={jnf.primaryContact?.name} />
+              {jnf.primaryContact?.designation && (
+                <ViewElement title="Designation" body={jnf.primaryContact?.designation} />
+              )}
+              <ViewElement title="Email Address" body={jnf.primaryContact?.email} email />
+              {jnf.primaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.primaryContact?.phone} />}
+              <SectionSubHeading title="Secondary Contact (if any)" />
+              {jnf.secondaryContact?.name && <ViewElement title="Name" body={jnf.secondaryContact.name} />}
+              {jnf.secondaryContact?.designation && (
+                <ViewElement title="Designation" body={jnf.secondaryContact.designation} />
+              )}
+              {jnf.secondaryContact?.email && (
+                <ViewElement title="Email Address" body={jnf.secondaryContact.email} email />
+              )}
+              {jnf.secondaryContact?.phone && <ViewElement title="Mobile Number" body={jnf.secondaryContact.phone} />}
+            </View>
+          )}
           <View>
             <SectionHeading title="Eligible courses & Disciplines" />
             {coursesLoading && <MiniSpinner />}
@@ -128,50 +129,51 @@ const MyDocument = ({ jnf, courses, coursesLoading }) => {
   );
 };
 
-const JNF_PDF = () => {
-  const { id } = useParams();
+const JNF_PDF = ({ id, sharable }) => {
   const [jnf, setJnf] = React.useState({});
   const [courses, setCourses] = React.useState([]);
   const [coursesLoading, setCoursesLoading] = React.useState(true);
 
   // Get JNF data from id in query parameter
-  React.useEffect(async () => {
-    try {
-      const { data } = await api.getJNF(id);
-      data.branches = data.branches.map((obj) => obj.branch);
-      setJnf(data);
-    } catch (e) {
-      const message = (e.response && e?.response?.data?.message) || 'Unable to fetch data!';
-      showToast(ERROR, message);
-    }
+  React.useEffect(() => {
+    const func = async () => {
+      try {
+        const { data } = await api.getJNF(id);
+        data.branches = data.branches.map((obj) => obj.branch);
+        setJnf(data);
+      } catch (e) {
+        const message = (e.response && e?.response?.data?.message) || 'Unable to fetch data!';
+        showToast(ERROR, message);
+      }
+    };
+    func();
   }, []);
 
   // Get Course-wise Branches
-  React.useEffect(async () => {
-    try {
-      let { data } = await api.getCourses();
-      data = await Promise.all(
-        data.map(async (course) => {
-          const { data } = await api.getBranch(course.id);
-          course.branches = data;
-          return course;
-        })
-      );
-      setCourses(data);
-    } catch (e) {
-      console.log(e);
-      const message = (e.response && e?.response?.data?.message) || 'Unable to fetch branches!';
-      showToast(ERROR, message);
-    } finally {
-      setCoursesLoading(false);
-    }
+  React.useEffect(() => {
+    const func = async () => {
+      try {
+        let { data } = await api.getCourses();
+        data = await Promise.all(
+          data.map(async (course) => {
+            const { data } = await api.getBranch(course.id);
+            course.branches = data;
+            return course;
+          })
+        );
+        setCourses(data);
+      } catch (e) {
+        console.log(e);
+        const message = (e.response && e?.response?.data?.message) || 'Unable to fetch branches!';
+        showToast(ERROR, message);
+      } finally {
+        setCoursesLoading(false);
+      }
+    };
+    func();
   }, []);
 
-  return (
-    <PDFViewer style={styles.pdf}>
-      <MyDocument id={id} jnf={jnf} courses={courses} coursesLoading={coursesLoading} />
-    </PDFViewer>
-  );
+  return <MyDocument id={id} jnf={jnf} courses={courses} coursesLoading={coursesLoading} sharable={sharable} />;
 };
 
 export default JNF_PDF;
