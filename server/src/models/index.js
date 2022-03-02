@@ -4,4 +4,6 @@ module.exports.Company = require('./company.model');
 module.exports.Course = require('./course.model');
 module.exports.Branch = require('./branch.model');
 module.exports.Jnf = require('./jnf.model');
+module.exports.Inf = require('./inf.model');
 module.exports.Contact = require('./contact.model');
+module.exports.GradYear = require('./gradYear.model');

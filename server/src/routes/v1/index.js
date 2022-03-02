@@ -5,6 +5,8 @@ const courseRoute = require('./course.route');
 const branchRoute = require('./branch.route');
 const companyRoute = require('./company.route');
 const jnfRoute = require('./jnf.route');
+const infRoute = require('./inf.route');
+const gradYearRoute = require('./gradYear.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -34,6 +36,14 @@ const defaultRoutes = [
   {
     path: '/jnfs',
     route: jnfRoute,
+  },
+  {
+    path: '/infs',
+    route: infRoute,
+  },
+  {
+    path: '/gradYear',
+    route: gradYearRoute,
   },
 ];
 
